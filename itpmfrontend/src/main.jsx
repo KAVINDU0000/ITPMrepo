@@ -8,6 +8,7 @@ import Trainpage from "./Pages/Trainpage.jsx";
 import Firstaidpage from "./Pages/Firstaidpage.jsx";
 import Adminpanel from "./Pages/Adminpanel.jsx";
 import Home from "./Pages/Home.jsx";
+import PetSymptomChecker from "./Pages/PetSymptomChecker.jsx";
 
 
 createRoot(document.getElementById("root")).render(
@@ -20,6 +21,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/Firstaid" element={<Firstaidpage />} />
         <Route path="/adminpanel" element={<Adminpanel/>} />
         <Route path="/Home" element={<Home/>} />
+        <Route path="/Pet" element={<PetSymptomChecker/>}/>
       
      </Routes>
 
