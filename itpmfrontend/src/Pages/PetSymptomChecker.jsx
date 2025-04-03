@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './PetSymptomChecker.css'; // Importing the custom CSS file
 
 const PetSymptomChecker = () => {
   // State to track current step and form data
@@ -35,6 +36,11 @@ const PetSymptomChecker = () => {
     setStep(step + 1);
   };
 
+  // Go to the previous step
+  const prevStep = () => {
+    setStep(step - 1);
+  };
+
   // List of all symptoms
   const symptoms = [
     "Acting Weird", "Diarrhea", "Itching", "Vomiting", "Vomiting and Diarrhea",
@@ -45,7 +51,7 @@ const PetSymptomChecker = () => {
     "Paralysis", "Reverse Sneezing", "Seizures", "Shaking", "Skin Problems",
     "Sneezing", "Stiffness", "Swelling", "Urination Changes", "Weight Loss",
     "Anal Gland Problems", "Bloating", "Constipation", "Drooling", "Excessive Thirst",
-    "Flatulence", "Hiccups", "Mange", "Obesitiy", "Pale Gums",
+    "Flatulence", "Hiccups", "Mange", "Obesity", "Pale Gums",
     "Runny Nose", "Scooting", "Snoring", "Stomach Noises", "Yellow Eyes",
     "Excessive Licking", "Excessive Barking"
   ];
@@ -58,57 +64,30 @@ const PetSymptomChecker = () => {
     // Additional first aid descriptions would be added here for all symptoms
   };
 
-  // CSS styles
-  const styles = {
-    container: "min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col justify-center py-12 px-4",
-    card: "p-6 max-w-md mx-auto bg-white rounded-xl shadow-lg border border-gray-100",
-    title: "text-3xl font-bold text-center text-blue-800 mb-6",
-    heading: "text-xl font-bold mb-6 text-blue-700",
-    paragraph: "mb-4 text-gray-700",
-    buttonPrimary: "w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 mb-3 shadow-md",
-    buttonSecondary: "w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out mb-3",
-    buttonSelected: "w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out mb-3",
-    buttonStart: "mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out shadow-md",
-    inputField: "w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
-    stepIndicatorContainer: "flex justify-between items-center mb-8 max-w-md mx-auto",
-    stepIndicator: (stepNumber) => 
-      `w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out ${
-        step === stepNumber ? 'bg-blue-600 text-white font-bold ring-4 ring-blue-200' : 
-        step > stepNumber ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'
-      }`,
-    stepConnector: (completed) => 
-      `flex-grow h-1 mx-1 ${completed ? 'bg-green-500' : 'bg-gray-200'}`,
-    symptomGrid: "grid grid-cols-2 gap-3 mb-5 max-h-64 overflow-y-auto pr-2",
-    symptomButton: "bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium py-3 px-4 rounded-lg text-sm text-center border border-blue-200 transition-all duration-200 hover:shadow",
-    firstAidBox: "bg-blue-50 p-5 rounded-lg mb-5 border-l-4 border-blue-500 shadow-sm",
-    warningBox: "bg-yellow-50 p-5 rounded-lg border-l-4 border-yellow-500 shadow-sm",
-    disclaimer: "mt-6 text-xs text-gray-500 italic text-center"
-  };
-
   // Render different steps based on current step
   const renderStep = () => {
     switch(step) {
       case 1:
         return (
-          <div className={styles.card}>
-            <h2 className={styles.heading}>Use this tool created with the help of Chewy's vet team to quickly find out what might be going on and what to do next.</h2>
-            <p className={styles.paragraph}>What type of pet do you have?</p>
-            <div className="flex flex-col gap-3">
+          <div className="card">
+            <h2 className="heading">Use this tool created with the help of Chewy's vet team to quickly find out what might be going on and what to do next.</h2>
+            <p className="paragraph">What type of pet do you have?</p>
+            <div className="options">
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('petType', 'Dog')}
               >
                 Dog
               </button>
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('petType', 'Cat')}
               >
                 Cat
               </button>
             </div>
-            <div className="mt-6">
-              <label className="block text-gray-700 mb-2 font-medium">
+            <div className="input-container">
+              <label className="label">
                 Pet's Name (optional)
               </label>
               <input
@@ -116,17 +95,17 @@ const PetSymptomChecker = () => {
                 name="petName"
                 value={formData.petName}
                 onChange={handleChange}
-                className={styles.inputField}
+                className="input"
                 placeholder="Enter name (optional)"
               />
             </div>
             <button 
               onClick={nextStep}
-              className={styles.buttonStart}
+              className="start-button"
             >
               Continue
             </button>
-            <p className={styles.disclaimer}>
+            <p className="disclaimer">
               The PetMD Symptom Checker, including related information and articles on this Site, is for educational purposes only and is not a substitute for veterinary care provided by a licensed veterinarian.
             </p>
           </div>
@@ -134,18 +113,18 @@ const PetSymptomChecker = () => {
       
       case 2:
         return (
-          <div className={styles.card}>
-            <h2 className={styles.heading}>Tell us about your {formData.petType.toLowerCase()}{formData.petName ? ` (${formData.petName})` : ''}</h2>
-            <p className={styles.paragraph}>What's their sex?</p>
-            <div className="flex flex-col gap-3">
+          <div className="card">
+            <h2 className="heading">Tell us about your {formData.petType.toLowerCase()}{formData.petName ? ` (${formData.petName})` : ''}</h2>
+            <p className="paragraph">What's their sex?</p>
+            <div className="options">
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('sex', 'Male')}
               >
                 Male
               </button>
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('sex', 'Female')}
               >
                 Female
@@ -156,23 +135,23 @@ const PetSymptomChecker = () => {
       
       case 3:
         return (
-          <div className={styles.card}>
-            <h2 className={styles.heading}>How old is {formData.sex === 'Male' ? 'he' : 'she'}?</h2>
-            <div className="flex flex-col gap-3">
+          <div className="card">
+            <h2 className="heading">How old is {formData.sex === 'Male' ? 'he' : 'she'}?</h2>
+            <div className="options">
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('age', 'Puppy (up to 2 years old)')}
               >
                 {formData.petType === 'Dog' ? 'Puppy' : 'Kitten'} (up to 2 years old)
               </button>
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('age', 'Adult (2-7 years old)')}
               >
                 Adult (2-7 years old)
               </button>
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('age', 'Senior (8+ years old)')}
               >
                 Senior (8+ years old)
@@ -183,19 +162,19 @@ const PetSymptomChecker = () => {
       
       case 4:
         return (
-          <div className={styles.card}>
-            <h2 className={styles.heading}>
+          <div className="card">
+            <h2 className="heading">
               Is your {formData.petType.toLowerCase()} {formData.sex === 'Male' ? 'neutered' : 'spayed'}?
             </h2>
-            <div className="flex flex-col gap-3">
+            <div className="options">
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('isSpayed', true)}
               >
                 Yes
               </button>
               <button 
-                className={styles.buttonPrimary}
+                className="button"
                 onClick={() => handleOptionSelect('isSpayed', false)}
               >
                 No
@@ -206,91 +185,77 @@ const PetSymptomChecker = () => {
       
       case 5:
         return (
-          <div className={styles.card}>
-            <h2 className={styles.heading}>What's your {formData.petType.toLowerCase()}'s main symptom?</h2>
-            <p className="mb-2 font-semibold text-blue-700">Common symptoms</p>
-            <div className={styles.symptomGrid}>
-              {symptoms.slice(0, 5).map((symptom) => (
-                <button 
-                  key={symptom}
-                  className={styles.symptomButton + " bg-blue-200 hover:bg-blue-300 text-blue-900"}
-                  onClick={() => handleOptionSelect('mainSymptom', symptom)}
-                >
-                  {symptom}
-                </button>
-              ))}
+          <div className="card">
+            <h2 className="heading">Select the main symptom</h2>
+            <div className="input-container">
+              <label className="label">Choose a symptom:</label>
+              <select
+                name="mainSymptom"
+                value={formData.mainSymptom}
+                onChange={handleChange}
+                className="dropdown"
+              >
+                <option value="">Select a symptom...</option>
+                {symptoms.map((symptom, index) => (
+                  <option key={index} value={symptom}>
+                    {symptom}
+                  </option>
+                ))}
+              </select>
             </div>
-            
-            <p className="mb-2 font-semibold text-blue-700 mt-4">All symptoms</p>
-            <div className={styles.symptomGrid}>
-              {symptoms.slice(5).map((symptom) => (
-                <button 
-                  key={symptom}
-                  className={styles.symptomButton}
-                  onClick={() => handleOptionSelect('mainSymptom', symptom)}
-                >
-                  {symptom}
-                </button>
-              ))}
-            </div>
+            <button 
+              onClick={nextStep}
+              className="start-button"
+            >
+              Continue
+            </button>
+            <button 
+              onClick={prevStep}
+              className="back-button"
+            >
+              Back
+            </button>
           </div>
         );
       
       case 6:
         return (
-          <div className={styles.card}>
-            <h2 className={styles.heading}>First Aid for {formData.mainSymptom}</h2>
-            <div className={styles.firstAidBox}>
-              <p className="text-lg font-semibold mb-3 text-blue-800">What to do now:</p>
-              <p>{firstAidInfo[formData.mainSymptom] || "Monitor your pet closely. If symptoms persist or worsen, contact your veterinarian immediately."}</p>
+          <div className="card">
+            <h2 className="heading">First Aid for {formData.mainSymptom}</h2>
+            <div className="first-aid-box">
+              <p className="paragraph">{firstAidInfo[formData.mainSymptom] || "No specific first aid available. Please contact your vet."}</p>
             </div>
-            
-            <div className={styles.warningBox}>
-              <p className="text-lg font-semibold mb-3 text-yellow-800">When to see a vet:</p>
-              <ul className="list-disc pl-5 text-gray-700">
-                <li className="mb-1">If symptoms persist for more than 24-48 hours</li>
-                <li className="mb-1">If your pet seems to be in pain</li>
-                <li className="mb-1">If your pet refuses to eat or drink</li>
-                <li className="mb-1">If there are any additional symptoms</li>
-              </ul>
-            </div>
-            
-            <button 
-              onClick={() => setStep(1)}
-              className={styles.buttonStart}
-            >
-              Start Over
-            </button>
+            <button onClick={nextStep} className="start-button">Finish</button>
+            <button onClick={prevStep} className="back-button">Back</button>
           </div>
         );
-      
+
       default:
-        return <div>Something went wrong.</div>;
+        return (
+          <div className="card">
+            <h2 className="heading">Thank you for using our Symptom Checker!</h2>
+            <p className="paragraph">You can always come back for more information or advice.</p>
+            <button onClick={() => setStep(1)} className="start-button">Start Over</button>
+          </div>
+        );
     }
   };
 
-  // Render step indicators
-  const renderStepIndicators = () => {
-    return (
-      <div className={styles.stepIndicatorContainer}>
-        {[1, 2, 3, 4, 5, 6].map((stepNumber, index) => (
-          <React.Fragment key={stepNumber}>
-            <div className={styles.stepIndicator(stepNumber)}>
-              {stepNumber}
-            </div>
-            {index < 5 && (
-              <div className={styles.stepConnector(step > stepNumber)} />
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-    );
-  };
-
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Pet Symptom Checker</h1>
-      {renderStepIndicators()}
+    <div className="container">
+      <div className="step-indicator-container">
+        <div className={`step-indicator ${step === 1 ? 'active' : ''}`}>1</div>
+        <div className={`step-connector ${step > 1 ? 'completed' : ''}`} />
+        <div className={`step-indicator ${step === 2 ? 'active' : ''}`}>2</div>
+        <div className={`step-connector ${step > 2 ? 'completed' : ''}`} />
+        <div className={`step-indicator ${step === 3 ? 'active' : ''}`}>3</div>
+        <div className={`step-connector ${step > 3 ? 'completed' : ''}`} />
+        <div className={`step-indicator ${step === 4 ? 'active' : ''}`}>4</div>
+        <div className={`step-connector ${step > 4 ? 'completed' : ''}`} />
+        <div className={`step-indicator ${step === 5 ? 'active' : ''}`}>5</div>
+        <div className={`step-connector ${step > 5 ? 'completed' : ''}`} />
+        <div className={`step-indicator ${step === 6 ? 'active' : ''}`}>6</div>
+      </div>
       {renderStep()}
     </div>
   );
