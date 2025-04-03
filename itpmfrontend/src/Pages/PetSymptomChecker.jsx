@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './PetSymptomChecker.css'; // Importing the custom CSS file
+import PetSidebar from './PetSidebar'; // Import Sidebar Component
 
 const PetSymptomChecker = () => {
   // State to track current step and form data
@@ -105,9 +106,6 @@ const PetSymptomChecker = () => {
             >
               Continue
             </button>
-            <p className="disclaimer">
-              The PetMD Symptom Checker, including related information and articles on this Site, is for educational purposes only and is not a substitute for veterinary care provided by a licensed veterinarian.
-            </p>
           </div>
         );
       
@@ -163,9 +161,7 @@ const PetSymptomChecker = () => {
       case 4:
         return (
           <div className="card">
-            <h2 className="heading">
-              Is your {formData.petType.toLowerCase()} {formData.sex === 'Male' ? 'neutered' : 'spayed'}?
-            </h2>
+            <h2 className="heading">Is your {formData.petType.toLowerCase()} {formData.sex === 'Male' ? 'neutered' : 'spayed'}?</h2>
             <div className="options">
               <button 
                 className="button"
@@ -209,12 +205,6 @@ const PetSymptomChecker = () => {
             >
               Continue
             </button>
-            <button 
-              onClick={prevStep}
-              className="back-button"
-            >
-              Back
-            </button>
           </div>
         );
       
@@ -226,7 +216,6 @@ const PetSymptomChecker = () => {
               <p className="paragraph">{firstAidInfo[formData.mainSymptom] || "No specific first aid available. Please contact your vet."}</p>
             </div>
             <button onClick={nextStep} className="start-button">Finish</button>
-            <button onClick={prevStep} className="back-button">Back</button>
           </div>
         );
 
@@ -243,20 +232,10 @@ const PetSymptomChecker = () => {
 
   return (
     <div className="container">
-      <div className="step-indicator-container">
-        <div className={`step-indicator ${step === 1 ? 'active' : ''}`}>1</div>
-        <div className={`step-connector ${step > 1 ? 'completed' : ''}`} />
-        <div className={`step-indicator ${step === 2 ? 'active' : ''}`}>2</div>
-        <div className={`step-connector ${step > 2 ? 'completed' : ''}`} />
-        <div className={`step-indicator ${step === 3 ? 'active' : ''}`}>3</div>
-        <div className={`step-connector ${step > 3 ? 'completed' : ''}`} />
-        <div className={`step-indicator ${step === 4 ? 'active' : ''}`}>4</div>
-        <div className={`step-connector ${step > 4 ? 'completed' : ''}`} />
-        <div className={`step-indicator ${step === 5 ? 'active' : ''}`}>5</div>
-        <div className={`step-connector ${step > 5 ? 'completed' : ''}`} />
-        <div className={`step-indicator ${step === 6 ? 'active' : ''}`}>6</div>
+      <PetSidebar formData={formData} /> {/* Render the sidebar */}
+      <div className="step-container">
+        {renderStep()}
       </div>
-      {renderStep()}
     </div>
   );
 };
