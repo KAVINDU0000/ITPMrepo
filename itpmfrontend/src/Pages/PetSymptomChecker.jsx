@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PetSymptomChecker.css';
+import PetSymptomApiService from './PetSymptomApiService';
 
 const PetSymptomChecker = () => {
+  // Create API service instance
+  const apiService = new PetSymptomApiService();
+  
   // State to track current step and form data
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -12,6 +16,123 @@ const PetSymptomChecker = () => {
     isSpayed: null,
     mainSymptom: ''
   });
+  
+  // State for recommendations and loading
+  const [recommendation, setRecommendation] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [symptoms, setSymptoms] = useState([]);
+  const [sessionId, setSessionId] = useState(null);
+  
+  // Fetch symptoms on component mount
+  useEffect(() => {
+    const fetchSymptoms = async () => {
+      try {
+        const response = await apiService.getSymptoms();
+        if (response.success) {
+          setSymptoms(response.data);
+        } else {
+          setError("Failed to load symptoms. Please try again.");
+        }
+      } catch (err) {
+        setError("An error occurred. Please try again.");
+      }
+    };
+    
+    fetchSymptoms();
+    
+    // Check for session ID in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const sid = urlParams.get('sid');
+    if (sid) {
+      loadSessionData(sid);
+    }
+  }, []);
+  
+  // Load session data if session ID is available
+  const loadSessionData = async (sid) => {
+    setIsLoading(true);
+    try {
+      const response = await apiService.getSession(sid);
+      if (response.success) {
+        setFormData(response.sessionData);
+        setSessionId(sid);
+        // Navigate to the appropriate step based on the data
+        if (response.sessionData.mainSymptom) {
+          setStep(6); // Go to recommendation step
+          getRecommendation(response.sessionData);
+        }
+      } else {
+        setError("Failed to load session data.");
+      }
+    } catch (err) {
+      setError("An error occurred loading session data.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // Save current session
+  const saveSession = async () => {
+    setIsLoading(true);
+    try {
+      const response = await apiService.saveSession({
+        ...formData,
+        timestamp: new Date().toISOString()
+      });
+      
+      if (response.success) {
+        setSessionId(response.sessionId);
+        // Update URL with session ID for sharing
+        window.history.pushState(
+          {}, 
+          '', 
+          `${window.location.pathname}?sid=${response.sessionId}`
+        );
+        return response.sessionId;
+      } else {
+        setError("Failed to save session.");
+        return null;
+      }
+    } catch (err) {
+      setError("An error occurred saving your session.");
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // Get recommendation based on form data
+  const getRecommendation = async (data) => {
+    setIsLoading(true);
+    try {
+      const response = await apiService.getRecommendation(data || formData);
+      if (response.success) {
+        setRecommendation(response.data);
+      } else {
+        setError("Failed to generate recommendation.");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // Get first aid info for selected symptom
+  const getFirstAidInfo = async (symptom) => {
+    try {
+      const response = await apiService.getFirstAidInfo(symptom);
+      if (response.success) {
+        return response.data;
+      } else {
+        return "No specific first aid available. Please contact your veterinarian.";
+      }
+    } catch (err) {
+      console.error("Error fetching first aid info:", err);
+      return "No specific first aid available. Please contact your veterinarian.";
+    }
+  };
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -32,7 +153,13 @@ const PetSymptomChecker = () => {
   };
 
   // Move to next step
-  const nextStep = () => {
+  const nextStep = async () => {
+    // If moving to recommendation step, fetch recommendation
+    if (step === 5) {
+      await getRecommendation();
+      // Also save the session for sharing
+      await saveSession();
+    }
     setStep(step + 1);
   };
 
@@ -41,30 +168,6 @@ const PetSymptomChecker = () => {
     setStep(step - 1);
   };
 
-  // List of all symptoms
-  const symptoms = [
-    "Acting Weird", "Diarrhea", "Itching", "Vomiting", "Vomiting and Diarrhea",
-    "Aggression", "Bad Breath", "Bleeding", "Blood in Stool", "Blood in Urine",
-    "Breathing Problems", "Coughing", "Crying", "Depression", "Ear Problems",
-    "Eye Problems", "Fever", "Hair Loss", "Head Tilt", "Lethargic",
-    "Limping", "Loss of Appetite", "Lumps", "Pain", "Panting",
-    "Paralysis", "Reverse Sneezing", "Seizures", "Shaking", "Skin Problems",
-    "Sneezing", "Stiffness", "Swelling", "Urination Changes", "Weight Loss",
-    "Anal Gland Problems", "Bloating", "Constipation", "Drooling", "Excessive Thirst",
-    "Flatulence", "Hiccups", "Mange", "Obesity", "Pale Gums",
-    "Runny Nose", "Scooting", "Snoring", "Stomach Noises", "Yellow Eyes",
-    "Excessive Licking", "Excessive Barking"
-  ];
-
-  // First aid descriptions based on symptom
-  const firstAidInfo = {
-    "Vomiting": "Withhold food for 12-24 hours. Provide small amounts of water. If vomiting persists for more than 24 hours, contact your veterinarian.",
-    "Diarrhea": "Feed a bland diet (boiled chicken and rice). Ensure your pet has access to clean water. If diarrhea persists for more than 48 hours or contains blood, contact your veterinarian.",
-    "Itching": "Check for fleas or ticks. Bathe with a gentle pet-friendly shampoo. Avoid known allergens. Contact your vet if itching persists or if skin appears red or inflamed.",
-    // Additional first aid descriptions would be added here for all symptoms
-  };
-
-  // Render different steps based on current step
   const renderStep = () => {
     switch(step) {
       case 1:
@@ -207,13 +310,14 @@ const PetSymptomChecker = () => {
               <button 
                 onClick={nextStep}
                 className="start-button"
-                disabled={!formData.mainSymptom}
+                disabled={!formData.mainSymptom || isLoading}
               >
-                Continue
+                {isLoading ? 'Loading...' : 'Continue'}
               </button>
               <button 
                 onClick={prevStep}
                 className="back-button"
+                disabled={isLoading}
               >
                 Back
               </button>
@@ -224,13 +328,43 @@ const PetSymptomChecker = () => {
       case 6:
         return (
           <div className="card">
-            <h2 className="heading">First Aid for {formData.mainSymptom}</h2>
-            <div className="first-aid-box">
-              <p className="paragraph">{firstAidInfo[formData.mainSymptom] || "No specific first aid available. Please contact your vet."}</p>
-            </div>
+            <h2 className="heading">Recommendation for {formData.mainSymptom}</h2>
+            {isLoading ? (
+              <p className="paragraph">Loading recommendation...</p>
+            ) : (
+              <div className="first-aid-box">
+                <p className="paragraph">{recommendation}</p>
+              </div>
+            )}
             <div className="options">
-              <button onClick={nextStep} className="start-button">Finish</button>
-              <button onClick={prevStep} className="back-button">Back</button>
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `${window.location.origin}${window.location.pathname}?sid=${sessionId}`
+                  );
+                  alert("Shareable link copied to clipboard!");
+                }} 
+                className="start-button"
+                disabled={!sessionId}
+              >
+                Share Result
+              </button>
+              <button onClick={() => {
+                setStep(1);
+                setFormData({
+                  petType: '',
+                  petName: '',
+                  sex: '',
+                  age: '',
+                  isSpayed: null,
+                  mainSymptom: ''
+                });
+                setRecommendation('');
+                setSessionId(null);
+                window.history.pushState({}, '', window.location.pathname);
+              }} className="back-button">
+                Start Over
+              </button>
             </div>
           </div>
         );
@@ -326,6 +460,7 @@ const PetSymptomChecker = () => {
             <div className={`step-connector ${step > 5 ? 'completed' : ''}`} />
             <div className={`step-indicator ${step === 6 ? 'active' : ''}`}>6</div>
           </div>
+          {error && <div className="error-message">{error}</div>}
           {renderStep()}
         </div>
       </div>
