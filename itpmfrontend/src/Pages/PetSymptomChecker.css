@@ -1,8 +1,8 @@
 /* PetSymptomChecker.css */
-:root {
+* {
   --primary-color: #4a90e2;
   --primary-dark: #3a7bc8;
-  --secondary-color: #f8f9fa;
+  --secondary-color: rgb(19, 189, 219);
   --success-color: #28a745;
   --warning-color: #ffc107;
   --danger-color: #dc3545;
