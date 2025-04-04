@@ -106,7 +106,7 @@ function App() {
             </div>
             <h3>First Aid Tips</h3>
             <p>Learn essential first aid techniques to handle pet emergencies until veterinary care is available</p>
-            <button className="feature-btn" onClick={() => navigate("/Firstaid")}>
+            <button className="feature-btn" onClick={() => navigate("/pet")}>
               View First Aid <FaArrowRight />
             </button>
           </div>
