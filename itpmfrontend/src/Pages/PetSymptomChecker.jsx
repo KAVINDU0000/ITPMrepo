@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import './PetSymptomChecker.css'; // Importing the custom CSS file
-import PetSidebar from './PetSidebar'; // Import Sidebar Component
+import './PetSymptomChecker.css';
 
 const PetSymptomChecker = () => {
   // State to track current step and form data
@@ -75,13 +74,13 @@ const PetSymptomChecker = () => {
             <p className="paragraph">What type of pet do you have?</p>
             <div className="options">
               <button 
-                className="button"
+                className={`button ${formData.petType === 'Dog' ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('petType', 'Dog')}
               >
                 Dog
               </button>
               <button 
-                className="button"
+                className={`button ${formData.petType === 'Cat' ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('petType', 'Cat')}
               >
                 Cat
@@ -106,6 +105,9 @@ const PetSymptomChecker = () => {
             >
               Continue
             </button>
+            <p className="disclaimer">
+              The PetMD Symptom Checker, including related information and articles on this Site, is for educational purposes only and is not a substitute for veterinary care provided by a licensed veterinarian.
+            </p>
           </div>
         );
       
@@ -116,13 +118,13 @@ const PetSymptomChecker = () => {
             <p className="paragraph">What's their sex?</p>
             <div className="options">
               <button 
-                className="button"
+                className={`button ${formData.sex === 'Male' ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('sex', 'Male')}
               >
                 Male
               </button>
               <button 
-                className="button"
+                className={`button ${formData.sex === 'Female' ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('sex', 'Female')}
               >
                 Female
@@ -137,19 +139,19 @@ const PetSymptomChecker = () => {
             <h2 className="heading">How old is {formData.sex === 'Male' ? 'he' : 'she'}?</h2>
             <div className="options">
               <button 
-                className="button"
+                className={`button ${formData.age === 'Puppy (up to 2 years old)' ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('age', 'Puppy (up to 2 years old)')}
               >
                 {formData.petType === 'Dog' ? 'Puppy' : 'Kitten'} (up to 2 years old)
               </button>
               <button 
-                className="button"
+                className={`button ${formData.age === 'Adult (2-7 years old)' ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('age', 'Adult (2-7 years old)')}
               >
                 Adult (2-7 years old)
               </button>
               <button 
-                className="button"
+                className={`button ${formData.age === 'Senior (8+ years old)' ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('age', 'Senior (8+ years old)')}
               >
                 Senior (8+ years old)
@@ -161,16 +163,18 @@ const PetSymptomChecker = () => {
       case 4:
         return (
           <div className="card">
-            <h2 className="heading">Is your {formData.petType.toLowerCase()} {formData.sex === 'Male' ? 'neutered' : 'spayed'}?</h2>
+            <h2 className="heading">
+              Is your {formData.petType.toLowerCase()} {formData.sex === 'Male' ? 'neutered' : 'spayed'}?
+            </h2>
             <div className="options">
               <button 
-                className="button"
+                className={`button ${formData.isSpayed === true ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('isSpayed', true)}
               >
                 Yes
               </button>
               <button 
-                className="button"
+                className={`button ${formData.isSpayed === false ? 'selected' : ''}`}
                 onClick={() => handleOptionSelect('isSpayed', false)}
               >
                 No
@@ -199,12 +203,21 @@ const PetSymptomChecker = () => {
                 ))}
               </select>
             </div>
-            <button 
-              onClick={nextStep}
-              className="start-button"
-            >
-              Continue
-            </button>
+            <div className="options">
+              <button 
+                onClick={nextStep}
+                className="start-button"
+                disabled={!formData.mainSymptom}
+              >
+                Continue
+              </button>
+              <button 
+                onClick={prevStep}
+                className="back-button"
+              >
+                Back
+              </button>
+            </div>
           </div>
         );
       
@@ -215,7 +228,10 @@ const PetSymptomChecker = () => {
             <div className="first-aid-box">
               <p className="paragraph">{firstAidInfo[formData.mainSymptom] || "No specific first aid available. Please contact your vet."}</p>
             </div>
-            <button onClick={nextStep} className="start-button">Finish</button>
+            <div className="options">
+              <button onClick={nextStep} className="start-button">Finish</button>
+              <button onClick={prevStep} className="back-button">Back</button>
+            </div>
           </div>
         );
 
@@ -230,11 +246,88 @@ const PetSymptomChecker = () => {
     }
   };
 
+  // Render the sidebar with selected data
+  const renderSidebar = () => {
+    return (
+      <div className="sidebar">
+        <h3 className="sidebar-title">Pet Information</h3>
+        <div className="sidebar-content">
+          <div className="sidebar-item">
+            <div className="sidebar-label">Pet Type</div>
+            <div className="sidebar-value">
+              {formData.petType || <span className="sidebar-empty">Not selected</span>}
+            </div>
+          </div>
+          
+          {formData.petName && (
+            <div className="sidebar-item">
+              <div className="sidebar-label">Pet Name</div>
+              <div className="sidebar-value">{formData.petName}</div>
+            </div>
+          )}
+          
+          <div className="sidebar-item">
+            <div className="sidebar-label">Sex</div>
+            <div className="sidebar-value">
+              {formData.sex || <span className="sidebar-empty">Not selected</span>}
+            </div>
+          </div>
+          
+          <div className="sidebar-item">
+            <div className="sidebar-label">Age</div>
+            <div className="sidebar-value">
+              {formData.age || <span className="sidebar-empty">Not selected</span>}
+            </div>
+          </div>
+          
+          {formData.isSpayed !== null && (
+            <div className="sidebar-item">
+              <div className="sidebar-label">
+                {formData.sex === 'Male' ? 'Neutered' : 'Spayed'}
+              </div>
+              <div className="sidebar-value">
+                {formData.isSpayed ? 'Yes' : 'No'}
+              </div>
+            </div>
+          )}
+          
+          {formData.mainSymptom && (
+            <div className="sidebar-item">
+              <div className="sidebar-label">Main Symptom</div>
+              <div className="sidebar-value">{formData.mainSymptom}</div>
+            </div>
+          )}
+        </div>
+        
+        <div className="sidebar-footer">
+          <p className="disclaimer">
+            This information is for educational purposes only and not a substitute for professional veterinary advice.
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="container">
-      <PetSidebar formData={formData} /> {/* Render the sidebar */}
-      <div className="step-container">
-        {renderStep()}
+    <div className="pet-checker-layout">
+      {renderSidebar()}
+      <div className="main-content">
+        <div className="container">
+          <div className="step-indicator-container">
+            <div className={`step-indicator ${step === 1 ? 'active' : ''}`}>1</div>
+            <div className={`step-connector ${step > 1 ? 'completed' : ''}`} />
+            <div className={`step-indicator ${step === 2 ? 'active' : ''}`}>2</div>
+            <div className={`step-connector ${step > 2 ? 'completed' : ''}`} />
+            <div className={`step-indicator ${step === 3 ? 'active' : ''}`}>3</div>
+            <div className={`step-connector ${step > 3 ? 'completed' : ''}`} />
+            <div className={`step-indicator ${step === 4 ? 'active' : ''}`}>4</div>
+            <div className={`step-connector ${step > 4 ? 'completed' : ''}`} />
+            <div className={`step-indicator ${step === 5 ? 'active' : ''}`}>5</div>
+            <div className={`step-connector ${step > 5 ? 'completed' : ''}`} />
+            <div className={`step-indicator ${step === 6 ? 'active' : ''}`}>6</div>
+          </div>
+          {renderStep()}
+        </div>
       </div>
     </div>
   );
