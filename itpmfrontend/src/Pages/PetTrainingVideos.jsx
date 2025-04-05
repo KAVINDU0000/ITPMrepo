@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import './PetTrainingVideos.css';
+
 
 const PetTrainingVideos = () => {
   const { id } = useParams();
