@@ -4,6 +4,7 @@ import { RiFirstAidKitFill } from "react-icons/ri";
 import { BsChatDotsFill, BsChevronDown } from "react-icons/bs";
 import "./App.css";
 import Image from "./components/IMG/Image";
+import Image1 from "./components/IMG/Image1";
 import Footer from "./components/Footer";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Aboutus from "./components/Aboutus";
@@ -134,17 +135,17 @@ function App() {
         <h2 className="section-title fade-in">What Pet Owners Say</h2>
         <div className="testimonials-container">
           <div className="testimonial-card slide-in-left">
-            <div className="testimonial-avatar"></div>
+            <div className="testimonial-avatar"><Image1/></div>
             <p>"The training guides helped my rescue dog overcome anxiety in just weeks!"</p>
             <h4>Sarah & Max</h4>
           </div>
           <div className="testimonial-card slide-up">
-            <div className="testimonial-avatar"></div>
+            <div className="testimonial-avatar"><Image1/></div>
             <p>"The first aid tips saved my cat's life when she had an emergency at night."</p>
             <h4>Michael & Whiskers</h4>
           </div>
           <div className="testimonial-card slide-in-right">
-            <div className="testimonial-avatar"></div>
+            <div className="testimonial-avatar"><Image1/></div>
             <p>"The personalized advice for my senior dog has made his golden years so much better."</p>
             <h4>Emma & Buddy</h4>
           </div>
