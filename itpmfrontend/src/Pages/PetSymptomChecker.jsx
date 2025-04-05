@@ -3,10 +3,10 @@ import './PetSymptomChecker.css';
 import PetSymptomApiService from './PetSymptomApiService';
 
 const PetSymptomChecker = () => {
-  // Create API service instance
+
   const apiService = new PetSymptomApiService();
   
-  // State to track current step and form data
+ 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     petType: '',
@@ -17,14 +17,14 @@ const PetSymptomChecker = () => {
     mainSymptom: ''
   });
   
-  // State for recommendations and loading
+
   const [recommendation, setRecommendation] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [symptoms, setSymptoms] = useState([]);
   const [sessionId, setSessionId] = useState(null);
   
-  // Fetch symptoms on component mount
+
   useEffect(() => {
     const fetchSymptoms = async () => {
       try {
@@ -41,7 +41,7 @@ const PetSymptomChecker = () => {
     
     fetchSymptoms();
     
-    // Check for session ID in URL
+  
     const urlParams = new URLSearchParams(window.location.search);
     const sid = urlParams.get('sid');
     if (sid) {
@@ -49,7 +49,7 @@ const PetSymptomChecker = () => {
     }
   }, []);
   
-  // Load session data if session ID is available
+
   const loadSessionData = async (sid) => {
     setIsLoading(true);
     try {
@@ -57,9 +57,9 @@ const PetSymptomChecker = () => {
       if (response.success) {
         setFormData(response.sessionData);
         setSessionId(sid);
-        // Navigate to the appropriate step based on the data
+    
         if (response.sessionData.mainSymptom) {
-          setStep(6); // Go to recommendation step
+          setStep(6);
           getRecommendation(response.sessionData);
         }
       } else {
@@ -72,7 +72,7 @@ const PetSymptomChecker = () => {
     }
   };
   
-  // Save current session
+
   const saveSession = async () => {
     setIsLoading(true);
     try {
@@ -83,7 +83,7 @@ const PetSymptomChecker = () => {
       
       if (response.success) {
         setSessionId(response.sessionId);
-        // Update URL with session ID for sharing
+     
         window.history.pushState(
           {}, 
           '', 
@@ -102,7 +102,7 @@ const PetSymptomChecker = () => {
     }
   };
   
-  // Get recommendation based on form data
+ 
   const getRecommendation = async (data) => {
     setIsLoading(true);
     try {
@@ -119,7 +119,7 @@ const PetSymptomChecker = () => {
     }
   };
   
-  // Get first aid info for selected symptom
+
   const getFirstAidInfo = async (symptom) => {
     try {
       const response = await apiService.getFirstAidInfo(symptom);
@@ -134,7 +134,7 @@ const PetSymptomChecker = () => {
     }
   };
 
-  // Handle form input changes
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -143,32 +143,32 @@ const PetSymptomChecker = () => {
     }));
   };
 
-  // Handle button clicks for options
+ 
   const handleOptionSelect = (field, value) => {
     setFormData(prevState => ({
       ...prevState,
       [field]: value
     }));
     
-    // Only advance automatically on steps 2, 3, and 4
+    
     if (step >= 2 && step <= 4) {
       setStep(step + 1);
     }
-    // For step 1, don't advance automatically
+    
   };
 
-  // Move to next step
+
   const nextStep = async () => {
-    // If moving to recommendation step, fetch recommendation
+   
     if (step === 5) {
       await getRecommendation();
-      // Also save the session for sharing
+      
       await saveSession();
     }
     setStep(step + 1);
   };
 
-  // Go to the previous step
+ 
   const prevStep = () => {
     setStep(step - 1);
   };
@@ -389,7 +389,7 @@ const PetSymptomChecker = () => {
     }
   };
 
-  // Render the sidebar with selected data
+  
   const renderSidebar = () => {
     return (
       <div className="sidebar">
