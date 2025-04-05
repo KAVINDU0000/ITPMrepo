@@ -1,65 +1,111 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import './TrainPage.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import './Trainpage.css';
 
-const TrainingCard = ({ image, title, description }) => (
-  <div className="training-card">
-    <div className="training-img">
-      <img src={image} alt={title} />
-    </div>
-    <div className="training-info">
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <button className="view-details-btn">View Details</button>
-    </div>
-  </div>
-);
 
-function TrainPage() {
-  const trainingData = [
-    {
-      id: 1,
-      image: 'pic3.jpg',
-      title: 'Labrador Puppy Training',
-      description: 'A comprehensive guide to training your Labrador puppy with easy-to-follow instructions and tips.'
-    },
-    {
-      id: 2,
-      image: 'pic4.jpg',
-      title: 'German Shepherd Training',
-      description: 'Teach your German Shepherd obedience with these structured training techniques and tips.'
-    },
-    {
-      id: 3,
-      image: 'pic5.jpg',
-      title: 'Bulldog Training',
-      description: 'Learn the basics of Bulldog training, including obedience, agility, and social skills.'
-    }
-  ];
+const Trainpage = () => {
+  const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get('http://localhost:3001/api/pets');
+        setPets(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch pets');
+        setLoading(false);
+      }
+    };
+
+    fetchPets();
+  }, []);
+
+  const getAgeCategory = (age) => {
+    if (age < 1) return { label: 'Puppy', className: 'puppy' };
+    if (age < 8) return { label: 'Adult', className: 'adult' };
+    return { label: 'Senior', className: 'senior' };
+  };
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading pets...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="training-page-container">
+        <div className="error-message">
+          <p>{error}</p>
+          <button 
+            className="view-button" 
+            style={{ maxWidth: '200px', margin: '20px auto' }}
+            onClick={() => window.location.reload()}
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="train-page">
-      <Navbar />
+    <div className="training-page-container">
+      <h1 className="page-title">Pet Training Videos</h1>
+      <p className="page-subtitle">Find age-appropriate training videos tailored to your pet's needs</p>
       
-      <div className="dropdown-container">
-     
-      </div>
-      
-      <div className="train-container">
-        {trainingData.map(card => (
-          <TrainingCard 
-            key={card.id}
-            image={card.image}
-            title={card.title}
-            description={card.description}
-          />
-        ))}
-      </div>
-      
-      <Footer />
+      {pets.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-icon">🐾</div>
+          <p className="empty-message">No pets found. Add pets to see training recommendations.</p>
+          <Link to="/pets/add" className="view-button" style={{ maxWidth: '200px', margin: '0 auto' }}>
+            Add Pet
+          </Link>
+        </div>
+      ) : (
+        <div className="pets-grid">
+          {pets.map(pet => {
+            const ageCategory = getAgeCategory(pet.age);
+            
+            return (
+              <div key={pet._id} className="pet-card">
+                <div className="pet-card-header">
+                  <h2 className="pet-card-title">{pet.customerName}'s Pet</h2>
+                </div>
+                <div className="pet-card-body">
+                  <div className="pet-info">
+                    <span className="pet-info-label">Breed:</span>
+                    <span className="pet-info-value">{pet.breed}</span>
+                  </div>
+                  <div className="pet-info">
+                    <span className="pet-info-label">Age:</span>
+                    <span className="pet-info-value">{pet.age} {pet.age === 1 ? 'year' : 'years'}</span>
+                  </div>
+                  <div className="pet-info">
+                    <span className="pet-info-label">Category:</span>
+                    <span className={`pet-age-badge ${ageCategory.className}`}>
+                      {ageCategory.label}
+                    </span>
+                  </div>
+                  <Link to={`/training/${pet._id}`} className="view-button">
+                    View Training Videos
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default TrainPage;
+export default Trainpage;

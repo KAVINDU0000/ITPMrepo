@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MdPets } from "react-icons/md";
-import { FaPaw, FaBone, FaHome, FaInfoCircle, FaHandHoldingHeart, FaPhoneAlt } from "react-icons/fa";
+import { 
+  FaPaw, 
+  FaBell, 
+  FaSearch, 
+  FaMapMarkerAlt, 
+  FaHandHoldingHeart, 
+  FaPhoneAlt 
+} from "react-icons/fa";
 import "./Navbar.css";
 
 function Navbar() {
@@ -34,20 +41,20 @@ function Navbar() {
         <ul className={`pet-nav-links ${mobileMenuOpen ? "mobile-active" : ""}`}>
           <li className={location.pathname === "/" ? "active" : ""}>
             <Link to="/">
-              <FaHome className="nav-icon" />
-              <span>Home</span>
+              <FaHandHoldingHeart className="nav-icon" />
+              <span>Donations</span>
             </Link>
           </li>
           <li className={location.pathname === "/about" ? "active" : ""}>
             <Link to="/about">
-              <FaInfoCircle className="nav-icon" />
-              <span>About</span>
+              <FaSearch className="nav-icon" />
+              <span>Found Pet</span>
             </Link>
           </li>
           <li className={location.pathname === "/services" ? "active" : ""}>
             <Link to="/services">
-              <FaHandHoldingHeart className="nav-icon" />
-              <span>Services</span>
+              <FaMapMarkerAlt className="nav-icon" />
+              <span>Lost Pet</span>
             </Link>
           </li>
           <li className={location.pathname === "/contact" ? "active" : ""}>
@@ -58,8 +65,8 @@ function Navbar() {
           </li>
           <li className="book-appointment">
             <Link to="/appointment" className="appointment-btn">
-              <FaBone className="btn-icon" />
-              <span>Book Appointment</span>
+              <FaBell className="btn-icon" />
+              <span>Get Alert</span>
             </Link>
           </li>
         </ul>

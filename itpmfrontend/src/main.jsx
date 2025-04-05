@@ -7,7 +7,8 @@ import Aboutus from "./components/Aboutus.jsx";
 import Trainpage from "./Pages/Trainpage.jsx";
 import Firstaidpage from "./Pages/Firstaidpage.jsx";
 import Adminpanel from "./Pages/Adminpanel.jsx";
-import Home from "./Pages/Home.jsx";
+import PetSymptomChecker from "./Pages/PetSymptomChecker.jsx";
+import PetTrainingVideos from "./Pages/PetTrainingVideos.jsx";
 
 
 createRoot(document.getElementById("root")).render(
@@ -16,10 +17,11 @@ createRoot(document.getElementById("root")).render(
      <Routes>
         <Route path="/" element={<App/>} />
         <Route path="/about" element={<Aboutus />} />
-        <Route path="/Train" element={<Trainpage />} />
+        <Route path="/training" element={<Trainpage />} />
         <Route path="/Firstaid" element={<Firstaidpage />} />
         <Route path="/adminpanel" element={<Adminpanel/>} />
-        <Route path="/Home" element={<Home/>} />
+        <Route path="/Pet" element={<PetSymptomChecker/>}/>
+        <Route path="/Trainv" element={<PetTrainingVideos/>}/>
       
      </Routes>
 
