@@ -149,7 +149,12 @@ const PetSymptomChecker = () => {
       ...prevState,
       [field]: value
     }));
-    setStep(step + 1);
+    
+    // Only advance automatically on steps 2, 3, and 4
+    if (step >= 2 && step <= 4) {
+      setStep(step + 1);
+    }
+    // For step 1, don't advance automatically
   };
 
   // Move to next step
@@ -205,9 +210,13 @@ const PetSymptomChecker = () => {
             <button 
               onClick={nextStep}
               className="start-button"
+              disabled={!formData.petType}
             >
               Continue
             </button>
+            {!formData.petType && (
+              <p className="error-message">Please select a pet type to continue</p>
+            )}
             <p className="disclaimer">
               The PetMD Symptom Checker, including related information and articles on this Site, is for educational purposes only and is not a substitute for veterinary care provided by a licensed veterinarian.
             </p>
