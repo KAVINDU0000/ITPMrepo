@@ -419,29 +419,121 @@ class PetSymptomModel {
     
     // Add preventive advice based on symptom, age, and neuter/spay status
     recommendation += "Preventive Measures:\n";
-    
-    if (mainSymptom === "Vomiting" || mainSymptom === "Diarrhea") {
-      recommendation += "• Maintain a consistent diet and avoid sudden food changes\n";
-      recommendation += "• Keep potentially harmful foods and objects out of reach\n";
-      if (age === "Puppy (up to 2 years old)") {
-        recommendation += "• Ensure proper vaccination to prevent infectious causes\n";
-        recommendation += "• Regular deworming as recommended by your veterinarian\n";
-      }
-    } else if (mainSymptom === "Itching" || mainSymptom === "Skin Problems") {
-      recommendation += "• Regular flea and tick prevention\n";
-      recommendation += "• Regular grooming and skin checks\n";
-      if (age === "Adult (2-7 years old)" || age === "Senior (8+ years old)") {
-        recommendation += "• Consider environmental or food allergies if issues persist\n";
-      }
-    } else if (mainSymptom === "Limping") {
-      recommendation += "• Maintain appropriate exercise levels\n";
-      if (age === "Puppy (up to 2 years old)") {
-        recommendation += "• Ensure proper nutrition for developing bones and joints\n";
-      } else if (age === "Senior (8+ years old)") {
-        recommendation += "• Consider joint supplements after discussing with your veterinarian\n";
-        recommendation += "• Maintain a healthy weight to reduce stress on joints\n";
-      }
-    }
+
+// Vomiting or Diarrhea
+if (mainSymptom === "Vomiting" || mainSymptom === "Diarrhea") {
+  recommendation += "• Maintain a consistent diet and avoid sudden food changes\n";
+  recommendation += "• Keep potentially harmful foods and objects out of reach\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Ensure proper vaccination to prevent infectious causes\n";
+    recommendation += "• Regular deworming as recommended by your veterinarian\n";
+  }
+}
+
+// Itching or Skin Problems
+else if (mainSymptom === "Itching" || mainSymptom === "Skin Problems") {
+  recommendation += "• Regular flea and tick prevention\n";
+  recommendation += "• Regular grooming and skin checks\n";
+  if (age === "Adult (2-7 years old)" || age === "Senior (8+ years old)") {
+    recommendation += "• Consider environmental or food allergies if issues persist\n";
+  }
+}
+
+// Limping
+else if (mainSymptom === "Limping") {
+  recommendation += "• Maintain appropriate exercise levels\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Ensure proper nutrition for developing bones and joints\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Consider joint supplements after discussing with your veterinarian\n";
+    recommendation += "• Maintain a healthy weight to reduce stress on joints\n";
+  }
+}
+
+// Aggression
+else if (mainSymptom === "Aggression") {
+  recommendation += "• Proper socialization and training\n";
+  recommendation += "• Address potential behavioral triggers or anxiety\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Early training for behavior management\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Monitor for signs of pain or discomfort as aggression can be a symptom\n";
+  }
+}
+
+// Urination Changes
+else if (mainSymptom === "Urination Changes") {
+  recommendation += "• Ensure access to clean, fresh water at all times\n";
+  recommendation += "• Monitor urination patterns and avoid holding urine for extended periods\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Regular potty breaks during house training\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Regular veterinary check-ups for urinary tract or kidney issues\n";
+  }
+}
+
+// Excessive Barking
+else if (mainSymptom === "Excessive Barking") {
+  recommendation += "• Provide adequate mental and physical stimulation\n";
+  recommendation += "• Address boredom or anxiety as potential causes\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Training to manage barking and socialization\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Ensure comfort and reduce stress factors that could contribute to barking\n";
+  }
+}
+
+// Swelling or Lumps
+else if (mainSymptom === "Swelling" || mainSymptom === "Lumps") {
+  recommendation += "• Regular veterinary exams to monitor any growths or changes in size\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Monitor for any new growths or swelling\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Routine vet checkups to detect tumors or cysts early\n";
+  }
+}
+
+// Pain or Discomfort
+else if (mainSymptom === "Pain" || mainSymptom === "Discomfort") {
+  recommendation += "• Monitor for signs of injury, arthritis, or internal issues\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Ensure proper exercise to prevent injuries from overactivity\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Regular pain management options like joint supplements or medication after veterinary approval\n";
+  }
+}
+
+// Bleeding
+else if (mainSymptom === "Bleeding") {
+  recommendation += "• Apply gentle pressure to stop bleeding and seek veterinary care\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Ensure that no sharp objects or dangerous items are accessible\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Monitor for excessive or recurring bleeding and discuss with your vet\n";
+  }
+}
+
+// Excessive Thirst
+else if (mainSymptom === "Excessive Thirst") {
+  recommendation += "• Ensure access to clean water at all times and monitor water intake\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Ensure proper hydration during hot weather and after exercise\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Monitor for signs of kidney or diabetes issues and consult with your vet\n";
+  }
+}
+
+// Lethargy
+else if (mainSymptom === "Lethargy") {
+  recommendation += "• Ensure a quiet and comfortable environment for rest\n";
+  recommendation += "• Monitor for signs of underlying infections or health issues\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Ensure adequate rest between play and exercise\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Schedule regular health check-ups to catch age-related health concerns early\n";
+  }
+}
+
     
     // Add spay/neuter recommendation for intact pets with relevant symptoms
     if (!isSpayed) {
