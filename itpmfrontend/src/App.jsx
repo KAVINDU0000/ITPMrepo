@@ -96,7 +96,7 @@ function App() {
             </div>
             <h3>Training Guides</h3>
             <p>Explore comprehensive guides to train your pets effectively with scientifically-backed methods</p>
-            <button className="feature-btn" onClick={() => navigate("/Train")}>
+            <button className="feature-btn" onClick={() => navigate("/training")}>
               Explore Guides <FaArrowRight />
             </button>
           </div>
