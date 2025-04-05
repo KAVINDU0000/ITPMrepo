@@ -114,7 +114,7 @@ function App() {
         </div>
       </div>
 
-      {/* About Section with Parallax */}
+ 
       <div className="about-section parallax-container" ref={aboutSectionRef}>
         <div className="parallax-background"></div>
         <div className="about-content">
