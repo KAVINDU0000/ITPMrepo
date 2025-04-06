@@ -65,24 +65,9 @@
     padding: 5rem 2rem;
   }
   
-  .section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: #333;
-    position: relative;
-  }
+
   
-  .section-title:after {
-    content: "";
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background-color: #ff7e5f;
-  }
+
   
   /* Our Story Section */
   .story-section {

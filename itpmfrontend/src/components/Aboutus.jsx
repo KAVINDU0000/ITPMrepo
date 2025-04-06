@@ -3,8 +3,10 @@ import { FaPaw, FaUserFriends, FaAward, FaHandHoldingHeart } from "react-icons/f
 import { MdPets, MdOutlineVolunteerActivism } from "react-icons/md";
 import Footer from "./Footer";
 import "./Aboutus.css";
+import Navbar from "./Navbar";
 
 const Aboutus = () => {
+
   // Animation observer
   useEffect(() => {
     const observerOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
@@ -25,9 +27,12 @@ const Aboutus = () => {
   }, []);
 
   return (
+  
     <div className="about-us-container">
+
       {/* Hero Section */}
       <div className="about-hero-section">
+      <Navbar/>
         <div className="about-hero-overlay"></div>
         <div className="about-hero-content">
           <h1 className="about-hero-title slide-up">About Pet Connect</h1>
