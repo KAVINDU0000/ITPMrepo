@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import './Contactus.css'
 import { FaPaw, FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
 
