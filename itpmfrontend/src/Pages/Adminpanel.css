@@ -1,10 +1,10 @@
-/* Professional Admin Panel Styles */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
   --primary-color: #3498db;
   --primary-dark: #2980b9;
-  --secondary-color: #2ecc71;
+  --secondary-color: #3498db;
   --danger-color: #e74c3c;
   --warning-color: #f39c12;
   --text-color: #333;
