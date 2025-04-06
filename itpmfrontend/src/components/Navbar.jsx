@@ -42,6 +42,12 @@ function Navbar() {
           <li className={location.pathname === "/" ? "active" : ""}>
             <Link to="/">
               <FaHandHoldingHeart className="nav-icon" />
+              <span>Home</span>
+            </Link>
+          </li>
+          <li className={location.pathname === "/GET" ? "active" : ""}>
+            <Link to="/">
+              <FaHandHoldingHeart className="nav-icon" />
               <span>Donations</span>
             </Link>
           </li>

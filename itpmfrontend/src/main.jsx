@@ -9,6 +9,7 @@ import Firstaidpage from "./Pages/Firstaidpage.jsx";
 import Adminpanel from "./Pages/Adminpanel.jsx";
 import PetSymptomChecker from "./Pages/PetSymptomChecker.jsx";
 import PetTrainingVideos from "./Pages/PetTrainingVideos.jsx";
+import Contactus from "./components/Contactus.jsx";
 
 
 createRoot(document.getElementById("root")).render(
@@ -22,6 +23,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/adminpanel" element={<Adminpanel/>} />
         <Route path="/Pet" element={<PetSymptomChecker/>}/>
         <Route path="/Trainv" element={<PetTrainingVideos/>}/>
+        <Route path="/contact" element={<Contactus/>}/>
       
      </Routes>
 
