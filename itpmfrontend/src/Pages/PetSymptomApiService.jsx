@@ -206,6 +206,88 @@ class PetSymptomApiService {
     }
   }
   
+  // Add these functions to your existing PetSymptomModel class
+
+/**
+ * Log email activity for analytics
+ * @param {string} emailAddress - The email address the report was sent to
+ * @param {string} sessionId - The session ID associated with the report
+ * @returns {Promise} Promise resolving to success status
+ */
+async logEmailActivity(emailAddress, sessionId) {
+  try {
+    // In a real implementation, you might store this in a database
+    // For now, we'll just log it and return success
+    
+    console.log(`Email sent to ${emailAddress} for session ${sessionId}`);
+    
+    // Track email event for analytics if available
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: 'pet_report_email_sent',
+        sessionId: sessionId
+      });
+    }
+    
+    return {
+      success: true
+    };
+  } catch (error) {
+    console.error("Error logging email activity:", error);
+    return {
+      success: false,
+      error: "Failed to log email activity"
+    };
+  }
+}
+
+/**
+ * Generate more detailed recommendation report
+ * @param {Object} petInfo - Information about the pet
+ * @returns {Object} Detailed recommendation report
+ */
+generateDetailedReport(petInfo) {
+  const baseRecommendation = this.getRecommendation(petInfo);
+  const possibleCauses = this.getPossibleCauses(petInfo.mainSymptom);
+  
+  // Get first aid information
+  const firstAidInfo = this.getFirstAidInfo(petInfo.mainSymptom);
+  
+  // Add additional information based on pet type and condition
+  let additionalInfo = '';
+  
+  // Add age-specific advice
+  if (petInfo.age.includes('Puppy') || petInfo.age.includes('Kitten')) {
+    additionalInfo += "\n\nYoung animals may show symptoms differently than adults. " +
+                     "Their immune systems are still developing, so monitor them closely and " +
+                     "contact your veterinarian if symptoms persist or worsen.";
+  } else if (petInfo.age.includes('Senior')) {
+    additionalInfo += "\n\nOlder pets may have multiple health conditions that can complicate " +
+                     "their symptoms. Regular veterinary check-ups are especially important " +
+                     "for senior pets.";
+  }
+  
+  // Add breed-specific information if we had it (placeholder)
+  // In a real app, you might have breed-specific advice
+  
+  // Recommendations for follow-up
+  const followUpRecommendations = [
+    "Keep a log of your pet's symptoms including time, duration, and severity",
+    "Take photos or videos of the symptoms to show your veterinarian",
+    "Monitor your pet's food and water intake",
+    "Note any changes in behavior or energy levels"
+  ];
+  
+  // Combine all information into a comprehensive report
+  return {
+    basicRecommendation: baseRecommendation,
+    possibleCauses: possibleCauses,
+    firstAidInformation: firstAidInfo,
+    ageSpecificAdvice: additionalInfo,
+    followUpRecommendations: followUpRecommendations,
+    disclaimer: "This report is for educational purposes only and is not a substitute for professional veterinary advice."
+  };
+}
   /**
    * Helper method to clear all pending requests
    * Used when resetting the application state
@@ -214,5 +296,7 @@ class PetSymptomApiService {
     this.pendingRequests = {};
   }
 }
+
+
 
 export default PetSymptomApiService;
