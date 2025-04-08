@@ -57,12 +57,7 @@ function Navbar() {
               <span>Found Pet</span>
             </Link>
           </li>
-          <li className={location.pathname === "/services" ? "active" : ""}>
-            <Link to="/services">
-              <FaMapMarkerAlt className="nav-icon" />
-              <span>Lost Pet</span>
-            </Link>
-          </li>
+         
           <li className={location.pathname === "/contact" ? "active" : ""}>
             <Link to="/contact">
               <FaPhoneAlt className="nav-icon" />

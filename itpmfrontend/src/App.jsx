@@ -22,7 +22,7 @@ function App() {
   const [chatMessages, setChatMessages] = useState([]);
   const messageEndRef = useRef(null);
 
-  // Sample responses for common pet questions
+
   const getResponse = (question) => {
     const lowercaseQuestion = question.toLowerCase();
     
