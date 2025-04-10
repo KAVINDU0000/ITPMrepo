@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 mongoose.connect(
-  "mongodb+srv://kavindudissanayaka000:Itpm12340000@itpm.mc5xu.mongodb.net/ITPM?retryWrites=true&w=majority&appName=ITPM",
+  "mongodb+srv://user1000:User1000@itpm.mc5xu.mongodb.net/ITPM?retryWrites=true&w=majority&appName=ITPM",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

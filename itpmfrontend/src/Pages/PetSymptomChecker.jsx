@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './PetSymptomChecker.css';
 import PetSymptomApiService from './PetSymptomApiService';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import emailjs from 'emailjs-com';
 
 const PetSymptomChecker = () => {
 
   const apiService = new PetSymptomApiService();
   
- 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     petType: '',
@@ -17,13 +19,19 @@ const PetSymptomChecker = () => {
     mainSymptom: ''
   });
   
-
   const [recommendation, setRecommendation] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [symptoms, setSymptoms] = useState([]);
   const [sessionId, setSessionId] = useState(null);
   
+  // New states for email and PDF functionality
+  const [emailAddress, setEmailAddress] = useState('');
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  
+  // Add ref for the report content
+  const reportRef = useRef(null);
 
   useEffect(() => {
     const fetchSymptoms = async () => {
@@ -41,7 +49,6 @@ const PetSymptomChecker = () => {
     
     fetchSymptoms();
     
-  
     const urlParams = new URLSearchParams(window.location.search);
     const sid = urlParams.get('sid');
     if (sid) {
@@ -49,7 +56,6 @@ const PetSymptomChecker = () => {
     }
   }, []);
   
-
   const loadSessionData = async (sid) => {
     setIsLoading(true);
     try {
@@ -72,7 +78,6 @@ const PetSymptomChecker = () => {
     }
   };
   
-
   const saveSession = async () => {
     setIsLoading(true);
     try {
@@ -102,7 +107,6 @@ const PetSymptomChecker = () => {
     }
   };
   
- 
   const getRecommendation = async (data) => {
     setIsLoading(true);
     try {
@@ -119,7 +123,6 @@ const PetSymptomChecker = () => {
     }
   };
   
-
   const getFirstAidInfo = async (symptom) => {
     try {
       const response = await apiService.getFirstAidInfo(symptom);
@@ -134,7 +137,6 @@ const PetSymptomChecker = () => {
     }
   };
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -142,7 +144,6 @@ const PetSymptomChecker = () => {
       [name]: value
     }));
   };
-
  
   const handleOptionSelect = (field, value) => {
     setFormData(prevState => ({
@@ -150,27 +151,151 @@ const PetSymptomChecker = () => {
       [field]: value
     }));
     
-    
     if (step >= 2 && step <= 4) {
       setStep(step + 1);
     }
-    
   };
 
-
   const nextStep = async () => {
-   
     if (step === 5) {
       await getRecommendation();
-      
       await saveSession();
     }
     setStep(step + 1);
   };
-
  
   const prevStep = () => {
     setStep(step - 1);
+  };
+
+  // PDF Generation Function
+  const generatePdfReport = async () => {
+    if (!reportRef.current) return null;
+    
+    setIsGeneratingPdf(true);
+    
+    try {
+      const canvas = await html2canvas(reportRef.current, {
+        scale: 2,
+        logging: false,
+        useCORS: true
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      
+      pdf.addImage(imgData, 'PNG', imgX, 10, imgWidth * ratio, imgHeight * ratio);
+      
+      // Add footer
+      pdf.setFontSize(10);
+      pdf.setTextColor(100, 100, 100);
+      pdf.text('This report is for educational purposes only and is not a substitute for veterinary care.', 
+        pdfWidth / 2, pdfHeight - 10, { align: 'center' });
+      
+      const pdfBlob = pdf.output('blob');
+      return { pdf, pdfBlob };
+    } catch (err) {
+      console.error("Error generating PDF:", err);
+      setError("Failed to generate report. Please try again.");
+      return null;
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
+  // Email Function
+  const sendEmailWithReport = async () => {
+    if (!emailAddress || !emailAddress.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    
+    setIsLoading(true);
+    
+    try {
+      const pdfResult = await generatePdfReport();
+      if (!pdfResult) {
+        throw new Error("Failed to generate report");
+      }
+      
+      const { pdf, pdfBlob } = pdfResult;
+      
+      // Convert PDF blob to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(pdfBlob);
+      reader.onloadend = async function() {
+        const base64data = reader.result;
+        
+        // Configure EmailJS to use your service and template IDs
+        const templateParams = {
+          to_email: emailAddress,
+          pet_name: formData.petName || formData.petType,
+          pet_type: formData.petType,
+          symptom: formData.mainSymptom,
+          recommendation: recommendation,
+          pdf_attachment: base64data
+        };
+        
+        try {
+          // Replace these with your actual EmailJS service and template IDs
+          await emailjs.send(
+            'YOUR_SERVICE_ID',
+            'YOUR_TEMPLATE_ID',
+            templateParams,
+            'YOUR_USER_ID'
+          );
+          
+          // Log email activity in your analytics or backend system
+          if (sessionId) {
+            await apiService.logEmailActivity(emailAddress, sessionId);
+          }
+          
+          setIsEmailSent(true);
+          setError('');
+        } catch (err) {
+          console.error("Error sending email:", err);
+          setError("Failed to send email. Please try again.");
+        }
+      };
+    } catch (err) {
+      console.error("Error in email process:", err);
+      setError("Failed to process report. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Download PDF Function
+  const downloadPdf = async () => {
+    setIsLoading(true);
+    try {
+      const pdfResult = await generatePdfReport();
+      if (pdfResult) {
+        const { pdf } = pdfResult;
+        const fileName = `${formData.petType}${formData.petName ? '_' + formData.petName : ''}_Symptom_Report.pdf`;
+        pdf.save(fileName);
+        
+        // Track the download event for analytics
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'pet_report_download',
+            petType: formData.petType,
+            symptom: formData.mainSymptom
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Error downloading PDF:", err);
+      setError("Failed to download report. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const renderStep = () => {
@@ -341,23 +466,93 @@ const PetSymptomChecker = () => {
             {isLoading ? (
               <p className="paragraph">Loading recommendation...</p>
             ) : (
-              <div className="first-aid-box">
-                <p className="paragraph">{recommendation}</p>
-              </div>
+              <>
+                <div className="first-aid-box" ref={reportRef}>
+                  <div className="report-header">
+                    <h3>Pet Symptom Report</h3>
+                    <p>{new Date().toLocaleDateString()}</p>
+                  </div>
+                  
+                  <div className="pet-info-summary">
+                    <h4>Pet Information</h4>
+                    <p><strong>Type:</strong> {formData.petType}</p>
+                    {formData.petName && <p><strong>Name:</strong> {formData.petName}</p>}
+                    <p><strong>Sex:</strong> {formData.sex}</p>
+                    <p><strong>Age:</strong> {formData.age}</p>
+                    <p><strong>{formData.sex === 'Male' ? 'Neutered' : 'Spayed'}:</strong> {formData.isSpayed ? 'Yes' : 'No'}</p>
+                  </div>
+                  
+                  <div className="symptom-info">
+                    <h4>Symptom Assessment</h4>
+                    <p><strong>Main Symptom:</strong> {formData.mainSymptom}</p>
+                    <h4>Recommendation</h4>
+                    <p>{recommendation}</p>
+                    
+                    <h4>Next Steps</h4>
+                    <ul className="next-steps-list">
+                      <li>Keep monitoring your pet's condition</li>
+                      <li>Contact your veterinarian if symptoms persist or worsen</li>
+                      <li>Keep your pet comfortable and ensure access to water</li>
+                      <li>Follow any specific first aid instructions provided above</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div className="actions-container">
+                  <h3>Share Your Results</h3>
+                  
+                  <div className="report-actions">
+                    <button 
+                      onClick={downloadPdf} 
+                      className="action-button download-button"
+                      disabled={isLoading || isGeneratingPdf}
+                    >
+                      {isGeneratingPdf ? 'Generating PDF...' : 'Download PDF Report'}
+                    </button>
+                    
+                    <div className="email-form">
+                      <label className="label">Email the report:</label>
+                      <div className="email-input-group">
+                        <input
+                          type="email"
+                          value={emailAddress}
+                          onChange={(e) => setEmailAddress(e.target.value)}
+                          className="input email-input"
+                          placeholder="Enter your email"
+                          disabled={isLoading || isEmailSent}
+                        />
+                        <button 
+                          onClick={sendEmailWithReport} 
+                          className="action-button email-button"
+                          disabled={isLoading || isEmailSent || !emailAddress}
+                        >
+                          {isLoading ? 'Sending...' : isEmailSent ? 'Sent!' : 'Send Email'}
+                        </button>
+                      </div>
+                      {isEmailSent && (
+                        <p className="success-message">Report sent successfully!</p>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="share-link-section">
+                    <button 
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          `${window.location.origin}${window.location.pathname}?sid=${sessionId}`
+                        );
+                        alert("Shareable link copied to clipboard!");
+                      }} 
+                      className="share-button"
+                      disabled={!sessionId}
+                    >
+                      Copy Shareable Link
+                    </button>
+                  </div>
+                </div>
+              </>
             )}
             <div className="options">
-              <button 
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `${window.location.origin}${window.location.pathname}?sid=${sessionId}`
-                  );
-                  alert("Shareable link copied to clipboard!");
-                }} 
-                className="start-button"
-                disabled={!sessionId}
-              >
-                Share Result
-              </button>
               <button onClick={() => {
                 setStep(1);
                 setFormData({
@@ -370,6 +565,8 @@ const PetSymptomChecker = () => {
                 });
                 setRecommendation('');
                 setSessionId(null);
+                setEmailAddress('');
+                setIsEmailSent(false);
                 window.history.pushState({}, '', window.location.pathname);
               }} className="back-button">
                 Start Over
@@ -389,7 +586,6 @@ const PetSymptomChecker = () => {
     }
   };
 
-  
   const renderSidebar = () => {
     return (
       <div className="sidebar">
