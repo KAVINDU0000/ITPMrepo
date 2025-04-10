@@ -534,6 +534,261 @@ else if (mainSymptom === "Lethargy") {
   }
 }
 
+else if (mainSymptom === "Coughing") {
+  recommendation += "• Avoid exposure to irritants such as smoke or dust, which can worsen coughing\n";
+  recommendation += "• Keep your pet calm and prevent excessive physical activity\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may cough due to kennel cough or other infections, so keep them isolated if needed\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Coughing in senior pets may indicate heart or lung issues, such as heartworm or bronchitis\n";
+  }
+}
+
+else if (mainSymptom === "Loss of Appetite") {
+  recommendation += "• Check for any signs of pain or discomfort, as pets may refuse to eat when in pain\n";
+  recommendation += "• Ensure your pet has access to fresh water and provide small, appetizing meals\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may lose their appetite due to teething or minor stomach upset, so monitor their behavior\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Loss of appetite in older pets can indicate dental disease, kidney failure, or other underlying conditions\n";
+  }
+}
+
+else if (mainSymptom === "Excessive Sleeping") {
+  recommendation += "• Ensure your pet has a comfortable and quiet place to sleep\n";
+  recommendation += "• Observe for any signs of discomfort or pain while sleeping\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may sleep more as they are growing and need extra rest\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may sleep more due to natural aging, but excessive sleep can indicate a health issue\n";
+  }
+}
+
+else if (mainSymptom === "Difficulty Breathing") {
+  recommendation += "• Keep your pet calm and avoid any physical exertion\n";
+  recommendation += "• Seek immediate veterinary attention if breathing difficulty persists\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Difficulty breathing in puppies may indicate respiratory infections or congenital issues\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may develop heart or lung issues, so prompt veterinary care is essential\n";
+  }
+}
+
+else if (mainSymptom === "Bad Breath") {
+  recommendation += "• Regular teeth brushing is important to prevent plaque buildup\n";
+  recommendation += "• Provide dental chews to help freshen your pet's breath\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may have bad breath due to teething, so ensure good oral hygiene from an early age\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Bad breath in senior pets can be a sign of dental disease or gastrointestinal issues, so consider a vet visit\n";
+  }
+}
+
+else if (mainSymptom === "Breathing Problems") {
+  recommendation += "• Keep your pet in a calm environment and monitor their breathing\n";
+  recommendation += "• Seek immediate veterinary attention if breathing is labored or irregular\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may have underdeveloped respiratory systems, but any difficulty breathing should be evaluated by a vet\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets are more prone to respiratory diseases, including heart disease or lung infections\n";
+  }
+}
+
+else if (mainSymptom === "Seizures") {
+  recommendation += "• Keep your pet in a safe area to prevent injury during a seizure\n";
+  recommendation += "• Do not try to restrain your pet during a seizure, but ensure they are comfortable\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Seizures in puppies can be due to genetic conditions, so a vet consultation is important\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Seizures in senior pets may be related to age-related neurological conditions or diseases\n";
+  }
+}
+
+else if (mainSymptom === "Swelling") {
+  recommendation += "• Check for signs of injury or infection in the swollen area\n";
+  recommendation += "• Apply a cold compress to reduce swelling and seek veterinary advice\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Swelling in puppies could be due to injury or teething, so observe closely\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, swelling could indicate arthritis, tumors, or fluid retention, so a vet visit is crucial\n";
+  }
+}
+
+else if (mainSymptom === "Lumps") {
+  recommendation += "• Have any new lumps evaluated by a vet to rule out tumors or growths\n";
+  recommendation += "• Do not attempt to pop or squeeze the lump, as it could worsen the condition\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Lumps in puppies may be harmless, but always consult a vet to ensure they are not abscesses or infections\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, lumps may be more concerning and require a biopsy to determine if they are benign or malignant\n";
+  }
+}
+
+else if (mainSymptom === "Pain") {
+  recommendation += "• Avoid physical exertion and provide a comfortable space for rest\n";
+  recommendation += "• Consult a vet for pain management and diagnosis\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience pain from teething or minor injuries, so monitor carefully\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets may experience joint pain, arthritis, or other age-related conditions that need veterinary attention\n";
+  }
+}
+
+else if (mainSymptom === "Weight Loss") {
+  recommendation += "• Monitor your pet's diet and ensure they are eating enough to maintain a healthy weight\n";
+  recommendation += "• Seek veterinary help if weight loss is unexplained or rapid, as it could signal an underlying condition\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Weight loss in puppies could indicate parasitic infections, so ensure proper deworming\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Weight loss in senior pets could indicate kidney disease, diabetes, or cancer, so timely veterinary evaluation is important\n";
+  }
+}
+
+// Yellow Eyes
+else if (mainSymptom === "Yellow Eyes") {
+  recommendation += "• Yellow eyes may indicate liver disease, jaundice, or an infection, so seek veterinary attention immediately\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Jaundice in puppies may be related to viral infections or inherited conditions\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, yellow eyes could indicate liver disease, gallbladder issues, or other serious conditions\n";
+  }
+}
+
+// Excessive Licking
+else if (mainSymptom === "Excessive Licking") {
+  recommendation += "• Ensure your pet’s environment is free from stressors or anxiety triggers\n";
+  recommendation += "• Monitor for signs of skin infections, allergies, or wounds caused by excessive licking\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may lick excessively due to teething or anxiety, so provide appropriate chew toys\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, excessive licking may be a sign of arthritis or other joint issues that cause discomfort\n";
+  }
+}
+
+// Excessive Barking
+else if (mainSymptom === "Excessive Barking") {
+  recommendation += "• Assess whether there are environmental factors causing stress or anxiety for your pet\n";
+  recommendation += "• Provide mental stimulation and exercise to prevent boredom\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may bark excessively due to excitement or need for attention, so ensure proper training\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets may bark due to confusion or cognitive dysfunction, so monitor for other signs of aging\n";
+  }
+}
+
+// Blood in Stool
+else if (mainSymptom === "Blood in Stool") {
+  recommendation += "• Monitor for signs of digestive distress or infection\n";
+  recommendation += "• Keep your pet hydrated and avoid feeding them anything that could irritate their stomach\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Blood in stool in puppies may indicate parasites or infections, so consult a vet for stool analysis\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, blood in stool could signal gastrointestinal issues like ulcers or tumors\n";
+  }
+}
+
+// Blood in Urine
+else if (mainSymptom === "Blood in Urine") {
+  recommendation += "• Seek immediate veterinary care as blood in urine could indicate urinary tract infections or stones\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• In puppies, blood in urine might be due to bladder infections or congenital issues\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets are more prone to urinary tract infections or kidney disease, which may cause blood in the urine\n";
+  }
+}
+
+// Coughing
+else if (mainSymptom === "Coughing") {
+  recommendation += "• Keep your pet indoors in a dust-free environment and monitor their coughing frequency\n";
+  recommendation += "• Consult your vet to rule out respiratory infections, heart disease, or allergies\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies are more prone to respiratory infections, so ensure they are vaccinated against kennel cough\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Coughing in senior pets could indicate heart disease or chronic respiratory conditions, so seek veterinary evaluation\n";
+  }
+}
+
+// Seizures
+else if (mainSymptom === "Seizures") {
+  recommendation += "• Keep your pet in a safe space during seizures to prevent injury\n";
+  recommendation += "• Note the duration and frequency of seizures and consult your vet for possible causes\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience seizures due to genetic conditions or infections, so seek veterinary consultation\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Seizures in senior pets can indicate underlying neurological conditions such as brain tumors or epilepsy\n";
+  }
+}
+
+// Anal Gland Problems
+else if (mainSymptom === "Anal Gland Problems") {
+  recommendation += "• Keep your pet from scooting or licking excessively around the rear end\n";
+  recommendation += "• Seek a vet to express the anal glands if they become impacted\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience anal gland issues due to improper diet or grooming habits\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets may experience more frequent anal gland problems, which can be managed with diet and regular vet visits\n";
+  }
+}
+
+// Flatulence
+else if (mainSymptom === "Flatulence") {
+  recommendation += "• Ensure your pet is on a balanced diet with proper fiber content\n";
+  recommendation += "• Avoid feeding your pet human food or foods that cause gas, such as beans and dairy\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience gas from trying new foods, so introduce foods gradually\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may experience digestive changes, so consult a vet to manage their diet and prevent excessive gas\n";
+  }
+}
+
+// Stomach Noises
+else if (mainSymptom === "Stomach Noises") {
+  recommendation += "• Ensure your pet is eating slowly and not gulping their food, as this can cause stomach discomfort\n";
+  recommendation += "• Monitor for other signs of digestive distress, such as vomiting or diarrhea\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may have sensitive stomachs, so try feeding smaller, more frequent meals\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Stomach noises in older pets can indicate digestive issues or gastrointestinal distress, so consult a vet\n";
+  }
+}
+
+// Snoring
+else if (mainSymptom === "Snoring") {
+  recommendation += "• If snoring becomes excessive, consider adjusting your pet's sleeping position or environment\n";
+  recommendation += "• Consult a vet if snoring is accompanied by breathing difficulties or fatigue\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Snoring in puppies may be due to their smaller respiratory tracts, but ensure they are breathing freely\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, snoring can be a sign of obesity or airway issues, so monitor their health closely\n";
+  }
+}
+
+// Excessive Thirst
+else if (mainSymptom === "Excessive Thirst") {
+  recommendation += "• Ensure fresh water is always available for your pet\n";
+  recommendation += "• Monitor your pet's urination patterns, as excessive thirst can indicate kidney or diabetes issues\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may drink excessively if they are overly active or teething, but ensure they are not dehydrated\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, excessive thirst could be a sign of kidney disease or diabetes, so consult a vet for a diagnosis\n";
+  }
+}
+
+// Drooling
+else if (mainSymptom === "Drooling") {
+  recommendation += "• Ensure that your pet’s oral hygiene is maintained to prevent dental issues\n";
+  recommendation += "• Monitor your pet for signs of nausea or anxiety that could be causing excessive drooling\n";
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Drooling in puppies can be due to teething, but make sure there are no obstructions in their mouth\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may drool excessively due to dental issues or nausea, so a vet check-up is recommended\n";
+  }
+}
+
+
+
+
+
     
     // Add spay/neuter recommendation for intact pets with relevant symptoms
     if (!isSpayed) {
