@@ -2,7 +2,7 @@
 :root {
   --primary-color: #ff5e62;
   --secondary-color: #5b65ad;
-  --accent-color: #1fd1a5;
+  --accent-color: #3498db;
   --light-color: #ffffff;
   --dark-color: #2c3e50;
   --transition-standard: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -419,7 +419,7 @@ body {
   right: 30px;
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #ff8f70 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #000000 100%);
   color: var(--light-color);
   border: none;
   border-radius: 50%;
