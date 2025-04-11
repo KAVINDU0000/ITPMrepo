@@ -509,30 +509,6 @@ const PetSymptomChecker = () => {
                     >
                       {isGeneratingPdf ? 'Generating PDF...' : 'Download PDF Report'}
                     </button>
-                    
-                    <div className="email-form">
-                      <label className="label">Email the report:</label>
-                      <div className="email-input-group">
-                        <input
-                          type="email"
-                          value={emailAddress}
-                          onChange={(e) => setEmailAddress(e.target.value)}
-                          className="input email-input"
-                          placeholder="Enter your email"
-                          disabled={isLoading || isEmailSent}
-                        />
-                        <button 
-                          onClick={sendEmailWithReport} 
-                          className="action-button email-button"
-                          disabled={isLoading || isEmailSent || !emailAddress}
-                        >
-                          {isLoading ? 'Sending...' : isEmailSent ? 'Sent!' : 'Send Email'}
-                        </button>
-                      </div>
-                      {isEmailSent && (
-                        <p className="success-message">Report sent successfully!</p>
-                      )}
-                    </div>
                   </div>
                   
                   <div className="share-link-section">
