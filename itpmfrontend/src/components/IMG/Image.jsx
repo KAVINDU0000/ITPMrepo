@@ -1,13 +1,11 @@
 import React from 'react';
 
-
 const styles = {
   ImageContainer: {
     position: 'relative',
-    left: '0px',
     width: '100%',
     height: '600px',
-    backgroundImage: 'url(./image.png)',
+    backgroundImage: `url('/petconnect.png')`,
     backgroundPosition: 'center center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
@@ -34,19 +32,9 @@ const styles = {
   },
 };
 
-const defaultProps = {
-  image: 'https://assets.api.uizard.io/api/cdn/stream/26785ea6-94b1-4d66-a0bd-f08affe71a2b.png',
-};
-
-const Image = (props) => {
+const Image = () => {
   return (
-    <div style={{
-      ...styles.ImageContainer,
-      backgroundImage: `url(${props.image ?? defaultProps.image})`,
-    }}>
-  
-     
-      
+    <div style={styles.ImageContainer}>
     </div>
   );
 };
