@@ -23,8 +23,8 @@ class PetSymptomModel {
       "Vomiting": "Withhold food for 12–24 hours. Provide small amounts of water. If vomiting persists for more than 24 hours, contact your veterinarian.",
       "Vomiting and Diarrhea": "Withhold food for 12 hours, offer water frequently. Reintroduce a bland diet slowly. If symptoms persist beyond 24 hours or include blood, contact your veterinarian immediately.",
       "Aggression": "Keep your pet and others safe. Aggression may result from pain or fear. Avoid punishing your pet and consult a veterinarian or behaviorist.",
-      "Bad Breath": "Brush your pet’s teeth with pet-safe toothpaste. Offer dental chews. Persistent bad breath may indicate dental disease — schedule a vet check.",
-      "Bleeding": "Apply gentle pressure using a clean cloth. Elevate the bleeding area if possible. If bleeding doesn’t stop within 5 minutes, seek emergency vet care.",
+      "Bad Breath": "Brush your pet's teeth with pet-safe toothpaste. Offer dental chews. Persistent bad breath may indicate dental disease — schedule a vet check.",
+      "Bleeding": "Apply gentle pressure using a clean cloth. Elevate the bleeding area if possible. If bleeding doesn't stop within 5 minutes, seek emergency vet care.",
       "Blood in Stool": "Monitor your pet. Withhold food for 12 hours but keep water available. Contact your vet immediately, especially if lethargy or vomiting is present.",
       "Blood in Urine": "Ensure your pet stays hydrated. Collect a urine sample if possible. Contact your veterinarian promptly to test for infection or other issues.",
       "Breathing Problems": "Keep your pet calm and still. Avoid stress or exertion. Seek immediate veterinary attention — breathing issues can be critical.",
@@ -43,7 +43,7 @@ class PetSymptomModel {
       "Pain": "Keep your pet calm and avoid handling the painful area. Do not give any human pain medications. Contact your vet immediately.",
       "Panting": "Ensure your pet is cool and calm. Excessive panting can indicate stress, heatstroke, or pain. Monitor and consult your vet if it persists.",
       "Paralysis": "Keep your pet still and calm. Support their body if moving. Seek emergency veterinary care immediately.",
-      "Reverse Sneezing": "Gently massage your pet’s throat or briefly cover their nose to encourage swallowing. If frequent, consult your vet.",
+      "Reverse Sneezing": "Gently massage your pet's throat or briefly cover their nose to encourage swallowing. If frequent, consult your vet.",
       "Seizures": "Stay calm. Move objects away to prevent injury. Time the seizure. Do not touch the mouth. Call your vet immediately afterward.",
       "Shaking": "Wrap your pet in a blanket to provide comfort. Shaking could be due to cold, fear, or illness. If it continues, call your vet.",
       "Skin Problems": "Check for parasites or irritants. Keep skin clean and prevent licking. Use hypoallergenic products. See vet if the issue continues.",
@@ -172,7 +172,7 @@ class PetSymptomModel {
     "Ear Problems": "Infections are common due to yeast or bacteria. Look for head shaking and discharge. Cleaning and meds required.",
     "Excessive Barking": "May result from boredom, anxiety, or learned behavior. Identify the cause and apply training or calming methods.",
     "Excessive Licking": "Often due to allergies, anxiety, or pain. Could lead to hotspots or infections if unchecked.",
-    "Excessive Thirst": "May indicate early diabetes, kidney issues, or Cushing’s disease. Blood tests may be necessary.",
+    "Excessive Thirst": "May indicate early diabetes, kidney issues, or Cushing's disease. Blood tests may be necessary.",
     "Eye Problems": "Discharge, redness, or cloudiness may be signs of infection, ulcers, or glaucoma. Prompt vet visit is essential.",
     "Fever": "Often from infection or inflammation. Accompanied by lethargy or decreased appetite. Confirm with a vet thermometer.",
     "Flatulence": "May result from diet, allergies, or gut imbalance. Probiotics and a diet change may help.",
@@ -656,7 +656,7 @@ else if (mainSymptom === "Yellow Eyes") {
 
 // Excessive Licking
 else if (mainSymptom === "Excessive Licking") {
-  recommendation += "• Ensure your pet’s environment is free from stressors or anxiety triggers\n";
+  recommendation += "• Ensure your pet's environment is free from stressors or anxiety triggers\n";
   recommendation += "• Monitor for signs of skin infections, allergies, or wounds caused by excessive licking\n";
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may lick excessively due to teething or anxiety, so provide appropriate chew toys\n";
@@ -776,7 +776,7 @@ else if (mainSymptom === "Excessive Thirst") {
 
 // Drooling
 else if (mainSymptom === "Drooling") {
-  recommendation += "• Ensure that your pet’s oral hygiene is maintained to prevent dental issues\n";
+  recommendation += "• Ensure that your pet's oral hygiene is maintained to prevent dental issues\n";
   recommendation += "• Monitor your pet for signs of nausea or anxiety that could be causing excessive drooling\n";
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Drooling in puppies can be due to teething, but make sure there are no obstructions in their mouth\n";
@@ -856,6 +856,147 @@ else if (mainSymptom === "Drooling") {
     } catch (error) {
       console.error("Error fetching session:", error);
       throw new Error("Failed to retrieve session data");
+    }
+  }
+
+  // AI Analysis Component
+  analyzeSymptoms(selectedSymptoms, petInfo = {}) {
+    const analysis = {
+      severity: this.calculateOverallSeverity(selectedSymptoms),
+      patterns: this.identifySymptomPatterns(selectedSymptoms),
+      recommendations: this.generateAIRecommendations(selectedSymptoms, petInfo),
+      riskFactors: this.assessRiskFactors(selectedSymptoms, petInfo),
+      timeline: this.suggestTimeline(selectedSymptoms)
+    };
+
+    return analysis;
+  }
+
+  calculateOverallSeverity(symptoms) {
+    const severityLevels = {
+      critical: ["Seizures", "Paralysis", "Breathing Problems", "Bleeding"],
+      high: ["Vomiting and Diarrhea", "Blood in Urine", "Blood in Stool", "Head Tilt"],
+      moderate: ["Fever", "Lethargic", "Loss of Appetite", "Pain"],
+      low: ["Sneezing", "Itching", "Hair Loss", "Bad Breath"]
+    };
+
+    let maxSeverity = "low";
+    for (const symptom of symptoms) {
+      for (const [level, severeSymptoms] of Object.entries(severityLevels)) {
+        if (severeSymptoms.includes(symptom)) {
+          if (level === "critical") return "critical";
+          if (level === "high" && maxSeverity !== "critical") maxSeverity = "high";
+          if (level === "moderate" && maxSeverity === "low") maxSeverity = "moderate";
+        }
+      }
+    }
+    return maxSeverity;
+  }
+
+  identifySymptomPatterns(symptoms) {
+    const patterns = {
+      gastrointestinal: ["Vomiting", "Diarrhea", "Vomiting and Diarrhea", "Loss of Appetite", "Bloating", "Constipation"],
+      respiratory: ["Breathing Problems", "Coughing", "Sneezing", "Reverse Sneezing", "Runny Nose"],
+      neurological: ["Seizures", "Head Tilt", "Paralysis", "Shaking"],
+      behavioral: ["Acting Weird", "Aggression", "Depression", "Excessive Barking", "Excessive Licking"],
+      dermatological: ["Itching", "Hair Loss", "Skin Problems", "Mange"]
+    };
+
+    const identifiedPatterns = [];
+    for (const [pattern, relatedSymptoms] of Object.entries(patterns)) {
+      const matchingSymptoms = symptoms.filter(symptom => relatedSymptoms.includes(symptom));
+      if (matchingSymptoms.length >= 2) {
+        identifiedPatterns.push({
+          type: pattern,
+          symptoms: matchingSymptoms,
+          confidence: (matchingSymptoms.length / relatedSymptoms.length) * 100
+        });
+      }
+    }
+    return identifiedPatterns;
+  }
+
+  generateAIRecommendations(symptoms, petInfo) {
+    const patterns = this.identifySymptomPatterns(symptoms);
+    const severity = this.calculateOverallSeverity(symptoms);
+    
+    let recommendations = {
+      immediate: [],
+      shortTerm: [],
+      longTerm: []
+    };
+
+    // Immediate recommendations based on severity
+    if (severity === "critical") {
+      recommendations.immediate.push("Seek emergency veterinary care immediately");
+    }
+
+    // Pattern-based recommendations
+    patterns.forEach(pattern => {
+      switch (pattern.type) {
+        case "gastrointestinal":
+          recommendations.immediate.push("Withhold food for 12-24 hours");
+          recommendations.immediate.push("Provide small amounts of water frequently");
+          recommendations.shortTerm.push("Gradually reintroduce a bland diet");
+          break;
+        case "respiratory":
+          recommendations.immediate.push("Keep your pet in a calm, well-ventilated area");
+          recommendations.immediate.push("Monitor breathing rate and effort");
+          break;
+        case "neurological":
+          recommendations.immediate.push("Keep your pet in a quiet, dark environment");
+          recommendations.immediate.push("Avoid sudden movements or loud noises");
+          break;
+      }
+    });
+
+    // Pet-specific recommendations
+    if (petInfo.age && petInfo.age > 7) {
+      recommendations.longTerm.push("Schedule regular senior pet check-ups");
+    }
+
+    return recommendations;
+  }
+
+  assessRiskFactors(symptoms, petInfo) {
+    const riskFactors = {
+      environmental: [],
+      health: [],
+      behavioral: []
+    };
+
+    // Environmental risks
+    if (symptoms.includes("Breathing Problems") || symptoms.includes("Coughing")) {
+      riskFactors.environmental.push("Check for environmental irritants or allergens");
+    }
+
+    // Health risks
+    if (symptoms.includes("Vomiting") || symptoms.includes("Diarrhea")) {
+      riskFactors.health.push("Monitor for dehydration");
+    }
+
+    // Behavioral risks
+    if (symptoms.includes("Aggression") || symptoms.includes("Excessive Barking")) {
+      riskFactors.behavioral.push("Assess for stress triggers or anxiety");
+    }
+
+    return riskFactors;
+  }
+
+  suggestTimeline(symptoms) {
+    const severity = this.calculateOverallSeverity(symptoms);
+    
+    switch (severity) {
+      case "critical":
+        return "Immediate veterinary attention required (within 1 hour)";
+      case "high":
+        return "Veterinary attention needed within 24 hours";
+      case "moderate":
+        return "Schedule veterinary appointment within 48-72 hours";
+      case "low":
+        return "Monitor symptoms and schedule routine check-up if they persist beyond 1 week";
+      default:
+        return "Continue monitoring symptoms";
     }
   }
 }
