@@ -137,6 +137,100 @@ const PetSymptomChecker = () => {
     }
   };
 
+  // New function to get urgency level based on symptom
+  const getUrgencyLevel = (symptom) => {
+    const highUrgencySymptoms = [
+      "Breathing Problems", "Seizures", "Paralysis", "Blood in Urine", 
+      "Blood in Stool", "Pale Gums", "Yellow Eyes", "Bloating"
+    ];
+    
+    const mediumUrgencySymptoms = [
+      "Vomiting", "Diarrhea", "Lethargic", "Loss of Appetite", 
+      "Pain", "Swelling", "Limping", "Coughing"
+    ];
+    
+    if (highUrgencySymptoms.includes(symptom)) {
+      return "high";
+    } else if (mediumUrgencySymptoms.includes(symptom)) {
+      return "medium";
+    } else {
+      return "low";
+    }
+  };
+
+  // New function to get first aid tips based on symptom
+  const getFirstAidTips = (symptom) => {
+    const tipsMap = {
+      "Vomiting": [
+        "Withhold food for 12-24 hours",
+        "Provide small amounts of water frequently",
+        "Monitor for dehydration signs",
+        "Contact vet if vomiting persists beyond 24 hours"
+      ],
+      "Diarrhea": [
+        "Ensure access to clean water to prevent dehydration",
+        "Feed a bland diet (boiled chicken and rice)",
+        "Monitor stool for blood or unusual color",
+        "Contact vet if diarrhea persists beyond 48 hours"
+      ],
+      "Breathing Problems": [
+        "Keep your pet calm and still",
+        "Ensure airways are clear",
+        "Provide a cool, well-ventilated environment",
+        "Seek immediate veterinary attention"
+      ],
+      "Seizures": [
+        "Do not restrain your pet during a seizure",
+        "Remove objects that could cause injury",
+        "Time the duration of the seizure",
+        "Contact your vet immediately after the seizure ends"
+      ],
+      "Limping": [
+        "Restrict activity to prevent further injury",
+        "Apply a cold compress for 10-15 minutes",
+        "Do not give human pain medications",
+        "Contact vet if limping persists beyond 24 hours"
+      ],
+      "Loss of Appetite": [
+        "Try offering a favorite food or treat",
+        "Ensure fresh water is available",
+        "Monitor for other symptoms",
+        "Contact vet if appetite doesn't return within 24 hours"
+      ],
+      "Skin Problems": [
+        "Prevent your pet from scratching or licking the area",
+        "Clean the area with mild soap and water",
+        "Apply a pet-safe topical treatment if available",
+        "Contact vet if condition worsens or doesn't improve"
+      ],
+      "Ear Problems": [
+        "Do not insert anything into the ear canal",
+        "Clean only the visible part of the ear",
+        "Look for redness, discharge, or odor",
+        "Contact vet for proper diagnosis and treatment"
+      ],
+      "Eye Problems": [
+        "Flush with saline solution if debris is present",
+        "Do not rub or touch the eye",
+        "Look for redness, discharge, or cloudiness",
+        "Contact vet if symptoms persist or worsen"
+      ],
+      "Urination Changes": [
+        "Monitor frequency and amount of urination",
+        "Ensure access to fresh water",
+        "Collect a urine sample if possible",
+        "Contact vet if changes persist beyond 24 hours"
+      ]
+    };
+    
+    return tipsMap[symptom] || [
+      "Monitor your pet's condition closely",
+      "Ensure access to fresh water",
+      "Keep your pet comfortable and calm",
+      "Contact your veterinarian for specific advice"
+    ];
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -485,8 +579,30 @@ const PetSymptomChecker = () => {
                   <div className="symptom-info">
                     <h4>Symptom Assessment</h4>
                     <p><strong>Main Symptom:</strong> {formData.mainSymptom}</p>
+                    
+                    <div className={`urgency-${getUrgencyLevel(formData.mainSymptom)}`}>
+                      {getUrgencyLevel(formData.mainSymptom) === "high" && (
+                        <p><strong>⚠️ URGENT:</strong> This symptom may indicate a serious condition. Please seek veterinary care immediately.</p>
+                      )}
+                      {getUrgencyLevel(formData.mainSymptom) === "medium" && (
+                        <p><strong>⚠️ MODERATE:</strong> This symptom should be monitored closely. Contact your veterinarian if it persists or worsens.</p>
+                      )}
+                      {getUrgencyLevel(formData.mainSymptom) === "low" && (
+                        <p><strong>⚠️ MILD:</strong> This symptom may be managed at home initially. Monitor your pet and contact your veterinarian if it persists.</p>
+                      )}
+                    </div>
+                    
                     <h4>Recommendation</h4>
                     <p>{recommendation}</p>
+                    
+                    <div className="first-aid-tips">
+                      <h4>First Aid Tips</h4>
+                      <ul>
+                        {getFirstAidTips(formData.mainSymptom).map((tip, index) => (
+                          <li key={index}>{tip}</li>
+                        ))}
+                      </ul>
+                    </div>
                     
                     <h4>Next Steps</h4>
                     <ul className="next-steps-list">
