@@ -23,8 +23,8 @@ class PetSymptomModel {
       "Vomiting": "Withhold food for 12–24 hours. Provide small amounts of water. If vomiting persists for more than 24 hours, contact your veterinarian.",
       "Vomiting and Diarrhea": "Withhold food for 12 hours, offer water frequently. Reintroduce a bland diet slowly. If symptoms persist beyond 24 hours or include blood, contact your veterinarian immediately.",
       "Aggression": "Keep your pet and others safe. Aggression may result from pain or fear. Avoid punishing your pet and consult a veterinarian or behaviorist.",
-      "Bad Breath": "Brush your pet’s teeth with pet-safe toothpaste. Offer dental chews. Persistent bad breath may indicate dental disease — schedule a vet check.",
-      "Bleeding": "Apply gentle pressure using a clean cloth. Elevate the bleeding area if possible. If bleeding doesn’t stop within 5 minutes, seek emergency vet care.",
+      "Bad Breath": "Brush your pet's teeth with pet-safe toothpaste. Offer dental chews. Persistent bad breath may indicate dental disease — schedule a vet check.",
+      "Bleeding": "Apply gentle pressure using a clean cloth. Elevate the bleeding area if possible. If bleeding doesn't stop within 5 minutes, seek emergency vet care.",
       "Blood in Stool": "Monitor your pet. Withhold food for 12 hours but keep water available. Contact your vet immediately, especially if lethargy or vomiting is present.",
       "Blood in Urine": "Ensure your pet stays hydrated. Collect a urine sample if possible. Contact your veterinarian promptly to test for infection or other issues.",
       "Breathing Problems": "Keep your pet calm and still. Avoid stress or exertion. Seek immediate veterinary attention — breathing issues can be critical.",
@@ -43,7 +43,7 @@ class PetSymptomModel {
       "Pain": "Keep your pet calm and avoid handling the painful area. Do not give any human pain medications. Contact your vet immediately.",
       "Panting": "Ensure your pet is cool and calm. Excessive panting can indicate stress, heatstroke, or pain. Monitor and consult your vet if it persists.",
       "Paralysis": "Keep your pet still and calm. Support their body if moving. Seek emergency veterinary care immediately.",
-      "Reverse Sneezing": "Gently massage your pet’s throat or briefly cover their nose to encourage swallowing. If frequent, consult your vet.",
+      "Reverse Sneezing": "Gently massage your pet's throat or briefly cover their nose to encourage swallowing. If frequent, consult your vet.",
       "Seizures": "Stay calm. Move objects away to prevent injury. Time the seizure. Do not touch the mouth. Call your vet immediately afterward.",
       "Shaking": "Wrap your pet in a blanket to provide comfort. Shaking could be due to cold, fear, or illness. If it continues, call your vet.",
       "Skin Problems": "Check for parasites or irritants. Keep skin clean and prevent licking. Use hypoallergenic products. See vet if the issue continues.",
@@ -172,7 +172,7 @@ class PetSymptomModel {
     "Ear Problems": "Infections are common due to yeast or bacteria. Look for head shaking and discharge. Cleaning and meds required.",
     "Excessive Barking": "May result from boredom, anxiety, or learned behavior. Identify the cause and apply training or calming methods.",
     "Excessive Licking": "Often due to allergies, anxiety, or pain. Could lead to hotspots or infections if unchecked.",
-    "Excessive Thirst": "May indicate early diabetes, kidney issues, or Cushing’s disease. Blood tests may be necessary.",
+    "Excessive Thirst": "May indicate early diabetes, kidney issues, or Cushing's disease. Blood tests may be necessary.",
     "Eye Problems": "Discharge, redness, or cloudiness may be signs of infection, ulcers, or glaucoma. Prompt vet visit is essential.",
     "Fever": "Often from infection or inflammation. Accompanied by lethargy or decreased appetite. Confirm with a vet thermometer.",
     "Flatulence": "May result from diet, allergies, or gut imbalance. Probiotics and a diet change may help.",
@@ -350,6 +350,14 @@ class PetSymptomModel {
       recommendation += this.ageSpecificConsiderations[age][mainSymptom] + "\n\n";
     }
     
+    // Add adult-specific advice if missing
+    if (age === "Adult (2-7 years old)" && !this.ageSpecificConsiderations[age]) {
+      this.ageSpecificConsiderations[age] = {
+        "general": "Adult pets are in their prime years and should maintain regular exercise and preventive care.",
+        [mainSymptom]: `For adult pets, ${mainSymptom} may indicate developing health issues that should be monitored closely. Regular veterinary check-ups are important to catch any potential problems early.`
+      };
+    }
+    
     // NEW: Add neuter/spay specific considerations
     const neuterStatus = isSpayed ? "spayed" : "intact";
     recommendation += `${sex}-Specific Considerations (${neuterStatus}):\n`;
@@ -420,259 +428,449 @@ class PetSymptomModel {
     // Add preventive advice based on symptom, age, and neuter/spay status
     recommendation += "Preventive Measures:\n";
 
-// Vomiting or Diarrhea
-if (mainSymptom === "Vomiting" || mainSymptom === "Diarrhea") {
-  recommendation += "• Maintain a consistent diet and avoid sudden food changes\n";
-  recommendation += "• Keep potentially harmful foods and objects out of reach\n";
-  if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Ensure proper vaccination to prevent infectious causes\n";
-    recommendation += "• Regular deworming as recommended by your veterinarian\n";
-  }
-}
+    if (mainSymptom === "Vomiting" || mainSymptom === "Diarrhea") {
+      recommendation += "• Maintain a consistent diet and avoid sudden food changes\n";
+      recommendation += "• Keep potentially harmful foods, plants, and objects out of reach\n";
+      recommendation += "• Ensure clean, fresh water is always available to prevent dehydration\n";
+       if (age === "Puppy (up to 2 years old)") {
+        recommendation += "• Ensure proper vaccination to prevent infectious causes like parvovirus\n";
+        recommendation += "• Follow a strict deworming schedule as advised by your vet\n";
+        recommendation += "• Use puppy-safe food and treats\n";
+      } else if (age === "Adult (2 to 8 years old)") {
+        recommendation += "• Monitor for food intolerances or allergies\n";
+        recommendation += "• Avoid feeding table scraps or fatty foods\n";
+        recommendation += "• Consult your vet about switching to a sensitive stomach formula if recurrent\n";
+      } else if (age === "Senior (8+ years old)") {
+        recommendation += "• Monitor for signs of dehydration or electrolyte imbalance\n";
+        recommendation += "• Consider underlying health issues like kidney or liver disease\n";
+        recommendation += "• Discuss senior-specific diets with your vet\n";
+      }
+    }
+    
 
-// Itching or Skin Problems
-else if (mainSymptom === "Itching" || mainSymptom === "Skin Problems") {
-  recommendation += "• Regular flea and tick prevention\n";
-  recommendation += "• Regular grooming and skin checks\n";
-  if (age === "Adult (2-7 years old)" || age === "Senior (8+ years old)") {
-    recommendation += "• Consider environmental or food allergies if issues persist\n";
-  }
-}
+    else if (mainSymptom === "Itching" || mainSymptom === "Skin Problems") {
+      recommendation += "• Regular flea and tick prevention\n";
+      recommendation += "• Regular grooming and routine skin checks\n";
+      recommendation += "• Use gentle, pet-safe shampoos and avoid overbathing\n";
+       if (age === "Puppy (up to 2 years old)") {
+        recommendation += "• Monitor for signs of mange or allergies as puppies are more sensitive\n";
+        recommendation += "• Use puppy-formulated grooming products\n";
+      } else if (age === "Adult (2 to 8 years old)") {
+        recommendation += "• Consider environmental or food allergies if issues persist\n";
+        recommendation += "• Consult your vet for a hypoallergenic diet if needed\n";
+      } else if (age === "Senior (8+ years old)") {
+        recommendation += "• Skin may become drier with age — consider moisturizing sprays or omega-3 supplements\n";
+        recommendation += "• Regular vet checkups to rule out hormonal imbalances or tumors\n";
+      }
+    }
+    
 
-// Limping
-else if (mainSymptom === "Limping") {
-  recommendation += "• Maintain appropriate exercise levels\n";
-  if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Ensure proper nutrition for developing bones and joints\n";
-  } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Consider joint supplements after discussing with your veterinarian\n";
-    recommendation += "• Maintain a healthy weight to reduce stress on joints\n";
-  }
-}
+    else if (mainSymptom === "Limping") {
+      recommendation += "• Maintain appropriate exercise levels and avoid intense physical activity until evaluated\n";
+      recommendation += "• Avoid slippery floors and jumping from heights to prevent further strain\n";
+    
+      if (age === "Puppy (up to 2 years old)") {
+        recommendation += "• Ensure proper nutrition for developing bones and joints\n";
+        recommendation += "• Monitor for congenital issues or injuries from play\n";
+      } else if (age === "Adult (2 to 8 years old)") {
+        recommendation += "• Consider soft tissue injuries, sprains, or strains from activity\n";
+        recommendation += "• Consult your vet if limping persists beyond a day or worsens\n";
+      } else if (age === "Senior (8+ years old)") {
+        recommendation += "• Consider joint supplements after discussing with your veterinarian\n";
+        recommendation += "• Maintain a healthy weight to reduce joint stress\n";
+        recommendation += "• Watch for signs of arthritis or chronic joint conditions\n";
+      }
+    }
+    
 
-// Aggression
-else if (mainSymptom === "Aggression") {
-  recommendation += "• Proper socialization and training\n";
-  recommendation += "• Address potential behavioral triggers or anxiety\n";
-  if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Early training for behavior management\n";
-  } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Monitor for signs of pain or discomfort as aggression can be a symptom\n";
-  }
-}
+    else if (mainSymptom === "Aggression") {
+      recommendation += "• Ensure proper socialization and obedience training\n";
+      recommendation += "• Identify and address behavioral triggers (e.g., fear, territory, pain)\n";
+      recommendation += "• Avoid punishment-based training; use positive reinforcement\n";
+    
+      if (age === "Puppy (up to 2 years old)") {
+        recommendation += "• Begin early behavior training and socialize with other pets and people\n";
+        recommendation += "• Avoid rough play that may reinforce aggressive behavior\n";
+      } else if (age === "Adult (2 to 8 years old)") {
+        recommendation += "• Consider a behavioral assessment with a professional trainer if aggression escalates\n";
+        recommendation += "• Evaluate the environment for stressors (e.g., new pets, moving homes)\n";
+      } else if (age === "Senior (8+ years old)") {
+        recommendation += "• Monitor for pain or cognitive decline, which may cause irritability\n";
+        recommendation += "• Schedule a full health check-up to rule out age-related conditions like arthritis\n";
+      }
+    }
+    
 
-// Urination Changes
-else if (mainSymptom === "Urination Changes") {
-  recommendation += "• Ensure access to clean, fresh water at all times\n";
-  recommendation += "• Monitor urination patterns and avoid holding urine for extended periods\n";
-  if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Regular potty breaks during house training\n";
-  } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Regular veterinary check-ups for urinary tract or kidney issues\n";
-  }
-}
+    else if (mainSymptom === "Urination Changes") {
+      recommendation += "• Ensure access to clean, fresh water at all times\n";
+      recommendation += "• Monitor frequency, color, and odor of urine for abnormalities\n";
+      recommendation += "• Avoid encouraging your pet to hold urine for extended periods\n";
+    
+      if (age === "Puppy (up to 2 years old)") {
+        recommendation += "• Provide frequent potty breaks during house training\n";
+        recommendation += "• Watch for signs of urinary tract infections (UTIs), which are common in young pups\n";
+      } else if (age === "Adult (2 to 8 years old)") {
+        recommendation += "• Watch for signs of behavioral marking or urinary infections\n";
+        recommendation += "• Consult a vet if sudden urination changes occur, as it could indicate early organ issues\n";
+      } else if (age === "Senior (8+ years old)") {
+        recommendation += "• Schedule regular check-ups for kidney and bladder health\n";
+        recommendation += "• Look for signs of incontinence or increased thirst (possible signs of diabetes or kidney disease)\n";
+      }
+    }
+    
 
 // Excessive Barking
 else if (mainSymptom === "Excessive Barking") {
   recommendation += "• Provide adequate mental and physical stimulation\n";
-  recommendation += "• Address boredom or anxiety as potential causes\n";
+  recommendation += "• Identify and address boredom, anxiety, or external triggers (e.g., other animals, noises)\n";
+
   if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Training to manage barking and socialization\n";
+    recommendation += "• Start consistent training and early socialization to prevent learned barking behaviors\n";
+    recommendation += "• Use positive reinforcement to shape appropriate communication\n";
+  } else if (age === "Adult (2 to 8 years old)") {
+    recommendation += "• Reassess daily routine to ensure physical activity and engagement\n";
+    recommendation += "• Consider behavioral training or enrichment toys to reduce stress and boredom\n";
   } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Ensure comfort and reduce stress factors that could contribute to barking\n";
+    recommendation += "• Rule out hearing loss or cognitive decline as potential causes of increased vocalization\n";
+    recommendation += "• Maintain a calm environment and minimize changes in surroundings\n";
   }
 }
+
 
 // Swelling or Lumps
 else if (mainSymptom === "Swelling" || mainSymptom === "Lumps") {
-  recommendation += "• Regular veterinary exams to monitor any growths or changes in size\n";
+  recommendation += "• Schedule veterinary exams to monitor any growths or changes in size, shape, or texture\n";
+  recommendation += "• Avoid pressing or manipulating any swelling or lump at home\n";
+
   if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Monitor for any new growths or swelling\n";
+    recommendation += "• Monitor for congenital lumps or post-vaccination swellings\n";
+    recommendation += "• Ensure proper nutrition for immune support during development\n";
+  } else if (age === "Adult (2 to 8 years old)") {
+    recommendation += "• Watch for any trauma-related swelling or infection and consult your vet if it persists\n";
+    recommendation += "• Regularly check during grooming for early detection\n";
   } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Routine vet checkups to detect tumors or cysts early\n";
+    recommendation += "• Frequent vet checkups are important to detect tumors or cysts early\n";
+    recommendation += "• Consider diagnostic tests (biopsy, ultrasound) for any unusual or fast-growing lumps\n";
   }
 }
 
+
 // Pain or Discomfort
 else if (mainSymptom === "Pain" || mainSymptom === "Discomfort") {
-  recommendation += "• Monitor for signs of injury, arthritis, or internal issues\n";
+  recommendation += "• Monitor for signs like limping, whining, excessive licking, or changes in behavior\n";
+  recommendation += "• Avoid giving human medications unless prescribed by a veterinarian\n";
+
   if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Ensure proper exercise to prevent injuries from overactivity\n";
+    recommendation += "• Ensure safe play areas to reduce the risk of injury from overactivity\n";
+    recommendation += "• Monitor growth-related discomfort or teething pain\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Evaluate activity routines or intense play that may contribute to joint or muscle strain\n";
+    recommendation += "• If persistent, schedule a veterinary evaluation to rule out underlying causes\n";
   } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Regular pain management options like joint supplements or medication after veterinary approval\n";
+    recommendation += "• Discuss chronic pain management with your vet, including joint supplements or medications\n";
+    recommendation += "• Provide comfortable bedding and ramps to reduce physical strain\n";
   }
 }
 
 // Bleeding
 else if (mainSymptom === "Bleeding") {
-  recommendation += "• Apply gentle pressure to stop bleeding and seek veterinary care\n";
+  recommendation += "• Apply gentle pressure to the area with a clean cloth to stop bleeding\n";
+  recommendation += "• Seek immediate veterinary care if bleeding is severe or does not stop within a few minutes\n";
+
   if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Ensure that no sharp objects or dangerous items are accessible\n";
+    recommendation += "• Puppy-proof your environment to prevent injuries from sharp objects or chewing hazards\n";
+    recommendation += "• Monitor for signs of bleeding due to teething or minor injuries during play\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Watch for bleeding related to rough activity, injuries, or oral health issues\n";
+    recommendation += "• Schedule a vet visit if bleeding recurs or seems unexplained\n";
   } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Monitor for excessive or recurring bleeding and discuss with your vet\n";
+    recommendation += "• Be alert for spontaneous or frequent bleeding which could indicate underlying conditions (e.g., tumors, clotting disorders)\n";
+    recommendation += "• Discuss with your veterinarian about blood work or further diagnostics if bleeding is recurring\n";
   }
 }
 
+
 // Excessive Thirst
 else if (mainSymptom === "Excessive Thirst") {
-  recommendation += "• Ensure access to clean water at all times and monitor water intake\n";
+  recommendation += "• Ensure constant access to fresh, clean water at all times\n";
+  recommendation += "• Monitor your pet's water intake closely and watch for any sudden changes\n";
+  
   if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Ensure proper hydration during hot weather and after exercise\n";
+    recommendation += "• Ensure your puppy stays well-hydrated during play and after exercise\n";
+    recommendation += "• Avoid long periods in hot weather to prevent dehydration\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Maintain a balanced diet that supports hydration\n";
+    recommendation += "• Monitor water intake, and consult with your veterinarian if you notice drastic changes\n";
   } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Monitor for signs of kidney or diabetes issues and consult with your vet\n";
+    recommendation += "• Excessive thirst in senior pets can indicate kidney or diabetes issues, so a veterinary check is advised\n";
+    recommendation += "• Keep a close watch for signs of dehydration or urinary issues\n";
   }
 }
+
 
 // Lethargy
 else if (mainSymptom === "Lethargy") {
   recommendation += "• Ensure a quiet and comfortable environment for rest\n";
-  recommendation += "• Monitor for signs of underlying infections or health issues\n";
+  recommendation += "• Monitor for signs of underlying infections, illnesses, or health issues\n";
+  
   if (age === "Puppy (up to 2 years old)") {
-    recommendation += "• Ensure adequate rest between play and exercise\n";
+    recommendation += "• Ensure your puppy has adequate rest between play and exercise sessions\n";
+    recommendation += "• Monitor for excessive lethargy as it may indicate illness or overexertion\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a balanced diet to maintain energy levels\n";
+    recommendation += "• If lethargy persists, consult with your veterinarian for a health evaluation\n";
   } else if (age === "Senior (8+ years old)") {
-    recommendation += "• Schedule regular health check-ups to catch age-related health concerns early\n";
+    recommendation += "• Regular health check-ups are essential to identify age-related health issues early\n";
+    recommendation += "• Ensure a comfortable resting area and avoid stressors that could worsen lethargy\n";
   }
 }
 
+
+// Coughing
 else if (mainSymptom === "Coughing") {
-  recommendation += "• Avoid exposure to irritants such as smoke or dust, which can worsen coughing\n";
+  recommendation += "• Avoid exposure to irritants such as smoke, dust, or strong scents, which can worsen coughing\n";
   recommendation += "• Keep your pet calm and prevent excessive physical activity\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may cough due to kennel cough or other infections, so keep them isolated if needed\n";
+    recommendation += "• Ensure vaccinations are up-to-date to prevent infections\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Ensure a balanced diet and proper hydration to support respiratory health\n";
+    recommendation += "• Consult with your veterinarian if coughing persists or worsens\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Coughing in senior pets may indicate heart or lung issues, such as heartworm or bronchitis\n";
+    recommendation += "• Schedule a veterinary check-up to rule out any serious conditions like pneumonia or heart disease\n";
   }
 }
 
+
+// Loss of Appetite
 else if (mainSymptom === "Loss of Appetite") {
   recommendation += "• Check for any signs of pain or discomfort, as pets may refuse to eat when in pain\n";
   recommendation += "• Ensure your pet has access to fresh water and provide small, appetizing meals\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may lose their appetite due to teething or minor stomach upset, so monitor their behavior\n";
+    recommendation += "• Make sure they are eating nutrient-rich food suitable for their growth stage\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Loss of appetite could be due to stress, so ensure a calm environment for your pet\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Loss of appetite in older pets can indicate dental disease, kidney failure, or other underlying conditions\n";
+    recommendation += "• Schedule a veterinary check-up to address potential age-related issues such as organ function decline\n";
   }
 }
 
+
+// Excessive Sleeping
 else if (mainSymptom === "Excessive Sleeping") {
   recommendation += "• Ensure your pet has a comfortable and quiet place to sleep\n";
   recommendation += "• Observe for any signs of discomfort or pain while sleeping\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may sleep more as they are growing and need extra rest\n";
+    recommendation += "• Make sure they are getting the proper amount of sleep to support their growth\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure your pet is getting enough mental and physical stimulation during waking hours\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Senior pets may sleep more due to natural aging, but excessive sleep can indicate a health issue\n";
+    recommendation += "• Schedule regular veterinary check-ups to ensure there are no underlying health problems affecting their energy levels\n";
   }
 }
 
+// Difficulty Breathing
 else if (mainSymptom === "Difficulty Breathing") {
   recommendation += "• Keep your pet calm and avoid any physical exertion\n";
   recommendation += "• Seek immediate veterinary attention if breathing difficulty persists\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Difficulty breathing in puppies may indicate respiratory infections or congenital issues\n";
+    recommendation += "• Ensure your puppy is not exposed to irritants or allergens that could worsen symptoms\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Senior pets may develop heart or lung issues, so prompt veterinary care is essential\n";
+    recommendation += "• Monitor for signs of heart disease, such as coughing, weakness, or reduced exercise tolerance\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure your pet is not overweight, as this can contribute to breathing issues\n";
   }
 }
 
+
+// Bad Breath
 else if (mainSymptom === "Bad Breath") {
   recommendation += "• Regular teeth brushing is important to prevent plaque buildup\n";
   recommendation += "• Provide dental chews to help freshen your pet's breath\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may have bad breath due to teething, so ensure good oral hygiene from an early age\n";
+    recommendation += "• Consider introducing dental training and oral care products early to prevent future issues\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Bad breath in senior pets can be a sign of dental disease or gastrointestinal issues, so consider a vet visit\n";
+    recommendation += "• Regular dental checkups and cleanings are important to maintain oral health in older pets\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Regular dental care, such as brushing and chews, should be incorporated into your pet's routine\n";
   }
 }
 
+// Breathing Problems
 else if (mainSymptom === "Breathing Problems") {
   recommendation += "• Keep your pet in a calm environment and monitor their breathing\n";
   recommendation += "• Seek immediate veterinary attention if breathing is labored or irregular\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may have underdeveloped respiratory systems, but any difficulty breathing should be evaluated by a vet\n";
+    recommendation += "• Ensure your puppy isn't exposed to respiratory irritants, like smoke or dust\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Senior pets are more prone to respiratory diseases, including heart disease or lung infections\n";
+    recommendation += "• Consider a regular check-up with the vet to monitor lung and heart health\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Keep your pet active but monitor for any unusual signs during exercise\n";
   }
 }
 
+
+// Seizures
 else if (mainSymptom === "Seizures") {
   recommendation += "• Keep your pet in a safe area to prevent injury during a seizure\n";
   recommendation += "• Do not try to restrain your pet during a seizure, but ensure they are comfortable\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Seizures in puppies can be due to genetic conditions, so a vet consultation is important\n";
+    recommendation += "• Monitor for other symptoms such as abnormal behavior or weakness\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Seizures in senior pets may be related to age-related neurological conditions or diseases\n";
+    recommendation += "• Consider regular veterinary check-ups to monitor neurological health\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure that your pet's health is monitored, as seizures can be related to underlying issues like epilepsy\n";
   }
 }
 
+
+// Swelling
 else if (mainSymptom === "Swelling") {
   recommendation += "• Check for signs of injury or infection in the swollen area\n";
   recommendation += "• Apply a cold compress to reduce swelling and seek veterinary advice\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Swelling in puppies could be due to injury or teething, so observe closely\n";
+    recommendation += "• Ensure there are no harmful objects or areas they could injure themselves in\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• In senior pets, swelling could indicate arthritis, tumors, or fluid retention, so a vet visit is crucial\n";
+    recommendation += "• Regular check-ups are important to catch age-related health issues early\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure proper exercise and monitor for any further swelling or signs of discomfort\n";
   }
 }
 
+
+// Lumps
 else if (mainSymptom === "Lumps") {
   recommendation += "• Have any new lumps evaluated by a vet to rule out tumors or growths\n";
   recommendation += "• Do not attempt to pop or squeeze the lump, as it could worsen the condition\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Lumps in puppies may be harmless, but always consult a vet to ensure they are not abscesses or infections\n";
+    recommendation += "• Monitor the lump for any changes in size, color, or texture\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• In senior pets, lumps may be more concerning and require a biopsy to determine if they are benign or malignant\n";
+    recommendation += "• Senior pets are more prone to developing tumors, so early evaluation is important\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Regular vet check-ups are important to monitor any unusual growths\n";
   }
 }
 
+
+// Pain
 else if (mainSymptom === "Pain") {
   recommendation += "• Avoid physical exertion and provide a comfortable space for rest\n";
   recommendation += "• Consult a vet for pain management and diagnosis\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may experience pain from teething or minor injuries, so monitor carefully\n";
+    recommendation += "• Ensure proper exercise to prevent injuries from overactivity\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Older pets may experience joint pain, arthritis, or other age-related conditions that need veterinary attention\n";
+    recommendation += "• Regular vet visits for joint health and pain management options are recommended\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure proper exercise to maintain a healthy weight and reduce strain on joints\n";
   }
 }
 
+
+// Weight Loss
 else if (mainSymptom === "Weight Loss") {
   recommendation += "• Monitor your pet's diet and ensure they are eating enough to maintain a healthy weight\n";
   recommendation += "• Seek veterinary help if weight loss is unexplained or rapid, as it could signal an underlying condition\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Weight loss in puppies could indicate parasitic infections, so ensure proper deworming\n";
+    recommendation += "• Ensure a well-balanced diet to support growth and development\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Weight loss in senior pets could indicate kidney disease, diabetes, or cancer, so timely veterinary evaluation is important\n";
+    recommendation += "• Ensure regular vet check-ups to monitor for chronic conditions\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure your pet is maintaining a balanced diet and avoid sudden changes in their feeding routine\n";
   }
 }
+
 
 // Yellow Eyes
 else if (mainSymptom === "Yellow Eyes") {
   recommendation += "• Yellow eyes may indicate liver disease, jaundice, or an infection, so seek veterinary attention immediately\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Jaundice in puppies may be related to viral infections or inherited conditions\n";
+    recommendation += "• Ensure proper vaccination and regular vet check-ups to monitor for early signs of infections\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• In senior pets, yellow eyes could indicate liver disease, gallbladder issues, or other serious conditions\n";
+    recommendation += "• Senior pets should have regular health check-ups to detect underlying liver or metabolic issues early\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure your pet’s liver function is regularly checked through veterinary exams\n";
   }
 }
 
+
 // Excessive Licking
 else if (mainSymptom === "Excessive Licking") {
-  recommendation += "• Ensure your pet’s environment is free from stressors or anxiety triggers\n";
+  recommendation += "• Ensure your pet's environment is free from stressors or anxiety triggers\n";
   recommendation += "• Monitor for signs of skin infections, allergies, or wounds caused by excessive licking\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may lick excessively due to teething or anxiety, so provide appropriate chew toys\n";
+    recommendation += "• Offer a calming environment and provide proper training to reduce anxiety-based licking\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• In senior pets, excessive licking may be a sign of arthritis or other joint issues that cause discomfort\n";
+    recommendation += "• Senior pets may also lick as a response to pain, so a veterinary check-up is recommended\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• If licking is due to stress, consider offering enrichment activities or anxiety-reducing strategies\n";
   }
 }
+
 
 // Excessive Barking
 else if (mainSymptom === "Excessive Barking") {
   recommendation += "• Assess whether there are environmental factors causing stress or anxiety for your pet\n";
   recommendation += "• Provide mental stimulation and exercise to prevent boredom\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may bark excessively due to excitement or need for attention, so ensure proper training\n";
+    recommendation += "• Provide consistent socialization and positive reinforcement to address barking issues\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Older pets may bark due to confusion or cognitive dysfunction, so monitor for other signs of aging\n";
+    recommendation += "• If barking is due to cognitive decline, consider consulting with a vet for management options\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• If barking is stress-related, consider enrichment activities and relaxation techniques\n";
   }
 }
 
@@ -680,108 +878,176 @@ else if (mainSymptom === "Excessive Barking") {
 else if (mainSymptom === "Blood in Stool") {
   recommendation += "• Monitor for signs of digestive distress or infection\n";
   recommendation += "• Keep your pet hydrated and avoid feeding them anything that could irritate their stomach\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Blood in stool in puppies may indicate parasites or infections, so consult a vet for stool analysis\n";
+    recommendation += "• Ensure your puppy is regularly dewormed to prevent parasitic infections\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• In senior pets, blood in stool could signal gastrointestinal issues like ulcers or tumors\n";
+    recommendation += "• Senior pets may have a weakened digestive system, so regular vet visits are essential\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Avoid foods that may irritate the digestive tract, such as fatty or spicy foods\n";
   }
 }
 
 // Blood in Urine
 else if (mainSymptom === "Blood in Urine") {
   recommendation += "• Seek immediate veterinary care as blood in urine could indicate urinary tract infections or stones\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• In puppies, blood in urine might be due to bladder infections or congenital issues\n";
+    recommendation += "• Ensure proper hydration and monitor for other signs like frequent urination\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Senior pets are more prone to urinary tract infections or kidney disease, which may cause blood in the urine\n";
+    recommendation += "• In older pets, blood in urine may also indicate bladder tumors, so seek prompt veterinary attention\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure that your pet is properly hydrated and monitor their urination habits\n";
   }
 }
+
 
 // Coughing
 else if (mainSymptom === "Coughing") {
   recommendation += "• Keep your pet indoors in a dust-free environment and monitor their coughing frequency\n";
   recommendation += "• Consult your vet to rule out respiratory infections, heart disease, or allergies\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies are more prone to respiratory infections, so ensure they are vaccinated against kennel cough\n";
+    recommendation += "• Ensure proper vaccination and prevent exposure to other sick pets\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Coughing in senior pets could indicate heart disease or chronic respiratory conditions, so seek veterinary evaluation\n";
+    recommendation += "• Senior pets may require special respiratory care, such as medication for heart-related conditions\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure your pet is getting enough exercise to maintain respiratory health\n";
   }
 }
+
 
 // Seizures
 else if (mainSymptom === "Seizures") {
   recommendation += "• Keep your pet in a safe space during seizures to prevent injury\n";
   recommendation += "• Note the duration and frequency of seizures and consult your vet for possible causes\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may experience seizures due to genetic conditions or infections, so seek veterinary consultation\n";
+    recommendation += "• In some cases, seizures can be related to hypoglycemia, so ensure your puppy's blood sugar is stable\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Seizures in senior pets can indicate underlying neurological conditions such as brain tumors or epilepsy\n";
+    recommendation += "• Senior pets may require specialized tests, such as MRI or CT scans, to determine the cause\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure proper weight management and limit stressors that could trigger seizures\n";
   }
 }
+
 
 // Anal Gland Problems
 else if (mainSymptom === "Anal Gland Problems") {
   recommendation += "• Keep your pet from scooting or licking excessively around the rear end\n";
   recommendation += "• Seek a vet to express the anal glands if they become impacted\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may experience anal gland issues due to improper diet or grooming habits\n";
+    recommendation += "• Ensure proper grooming and consult with your vet for advice on how to prevent future issues\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Older pets may experience more frequent anal gland problems, which can be managed with diet and regular vet visits\n";
+    recommendation += "• Consider a specialized diet with fiber to support healthy anal gland function\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure regular check-ups to monitor anal gland health and prevent issues\n";
   }
 }
+
 
 // Flatulence
 else if (mainSymptom === "Flatulence") {
   recommendation += "• Ensure your pet is on a balanced diet with proper fiber content\n";
   recommendation += "• Avoid feeding your pet human food or foods that cause gas, such as beans and dairy\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may experience gas from trying new foods, so introduce foods gradually\n";
+    recommendation += "• Ensure that their food is suitable for their age and avoid abrupt changes in diet\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Senior pets may experience digestive changes, so consult a vet to manage their diet and prevent excessive gas\n";
+    recommendation += "• Consider a senior-specific diet that is easier on their digestive system\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure that your pet's food is suitable for their activity level and health needs\n";
   }
 }
+
 
 // Stomach Noises
 else if (mainSymptom === "Stomach Noises") {
   recommendation += "• Ensure your pet is eating slowly and not gulping their food, as this can cause stomach discomfort\n";
   recommendation += "• Monitor for other signs of digestive distress, such as vomiting or diarrhea\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may have sensitive stomachs, so try feeding smaller, more frequent meals\n";
+    recommendation += "• Consider providing food specifically designed for puppies to promote digestion\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Stomach noises in older pets can indicate digestive issues or gastrointestinal distress, so consult a vet\n";
+    recommendation += "• A senior-friendly diet with easy-to-digest ingredients can help prevent stomach issues\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Look for high-quality food that supports digestive health and prevent overfeeding\n";
   }
 }
+
 
 // Snoring
 else if (mainSymptom === "Snoring") {
   recommendation += "• If snoring becomes excessive, consider adjusting your pet's sleeping position or environment\n";
   recommendation += "• Consult a vet if snoring is accompanied by breathing difficulties or fatigue\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Snoring in puppies may be due to their smaller respiratory tracts, but ensure they are breathing freely\n";
+    recommendation += "• Puppies with snoring may also be teething, which can lead to temporary airway discomfort\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• In senior pets, snoring can be a sign of obesity or airway issues, so monitor their health closely\n";
+    recommendation += "• Obesity can worsen snoring, so ensure your senior pet maintains a healthy weight\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure your pet has a comfortable sleeping environment that doesn't strain their breathing\n";
   }
 }
+
 
 // Excessive Thirst
 else if (mainSymptom === "Excessive Thirst") {
   recommendation += "• Ensure fresh water is always available for your pet\n";
   recommendation += "• Monitor your pet's urination patterns, as excessive thirst can indicate kidney or diabetes issues\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Puppies may drink excessively if they are overly active or teething, but ensure they are not dehydrated\n";
+    recommendation += "• Monitor their water intake if they are teething, as some puppies may drink more due to discomfort\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• In senior pets, excessive thirst could be a sign of kidney disease or diabetes, so consult a vet for a diagnosis\n";
+    recommendation += "• Senior pets are more susceptible to kidney issues, so regular vet check-ups are important\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• Ensure your pet is maintaining a balanced water intake, as dehydration can lead to more health issues\n";
   }
 }
 
+
 // Drooling
 else if (mainSymptom === "Drooling") {
-  recommendation += "• Ensure that your pet’s oral hygiene is maintained to prevent dental issues\n";
+  recommendation += "• Ensure that your pet's oral hygiene is maintained to prevent dental issues\n";
   recommendation += "• Monitor your pet for signs of nausea or anxiety that could be causing excessive drooling\n";
+  
   if (age === "Puppy (up to 2 years old)") {
     recommendation += "• Drooling in puppies can be due to teething, but make sure there are no obstructions in their mouth\n";
+    recommendation += "• Teething puppies may drool more, so ensure they have safe chew toys to relieve discomfort\n";
   } else if (age === "Senior (8+ years old)") {
     recommendation += "• Senior pets may drool excessively due to dental issues or nausea, so a vet check-up is recommended\n";
+    recommendation += "• Dental cleanings and regular vet visits are especially important for senior pets to prevent oral health issues\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet\n";
+    recommendation += "• If drooling is sudden or excessive, consult a vet to rule out health problems such as dental or gastrointestinal issues\n";
   }
 }
 
