@@ -14,6 +14,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+
 }
 
 body {
@@ -21,6 +22,7 @@ body {
   line-height: 1.6;
   color: var(--dark-color);
   overflow-x: hidden;
+  cursor: url('catcursor1.png') 0.5 0.5, auto;
 }
 
 .app-container {
@@ -957,4 +959,36 @@ body {
     padding: 4px 8px;
     font-size: 0.75rem;
   }
+}
+
+/* All clickable elements */
+a, 
+button, 
+input[type="button"],
+input[type="submit"],
+.feature-btn,
+.quick-reply-btn,
+.action-btn,
+.emoji-btn,
+.send-button,
+.primary-btn,
+.secondary-btn,
+.learn-more-btn,
+.close-chat,
+.clear-chat,
+.feature-card,
+.testimonial-card,
+.nav-link,
+.social-icon,
+.chatbot-btn {
+  cursor: url('catcursors.png') 0.5 0.5, pointer;
+}
+
+/* Text input areas */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+.message-input {
+  cursor: url('catcursor1.png') 0.5 0.5, text;
 }
