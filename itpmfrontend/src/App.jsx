@@ -1,10 +1,9 @@
 import Navbar from "./components/Navbar";
-import { FaBook, FaArrowRight } from "react-icons/fa";
+import { FaBook, FaArrowRight, FaDog, FaCat, FaHeartbeat, FaUtensils, FaShower, FaRunning, FaQuestionCircle } from "react-icons/fa";
 import { RiFirstAidKitFill } from "react-icons/ri";
-import { BsChatDotsFill, BsChevronDown, BsSend } from "react-icons/bs";
+import { BsChatDotsFill, BsChevronDown, BsSend, BsEmojiSmile, BsPaperclip } from "react-icons/bs";
 import { FaPaw } from "react-icons/fa";
 import "./App.css";
-import Image from "./components/IMG/Image";
 import Image1 from "./components/IMG/Image1";
 import Footer from "./components/Footer";
 import { Routes, Route, useNavigate } from "react-router-dom";
@@ -19,29 +18,81 @@ function App() {
   const [showChat, setShowChat] = useState(false);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [chatMessages, setChatMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState(() => {
+    // Load chat history from localStorage if available
+    const savedMessages = localStorage.getItem('chatMessages');
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  });
+  const [showQuickReplies, setShowQuickReplies] = useState(true);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const messageEndRef = useRef(null);
+  const messageInputRef = useRef(null);
 
+  // Save chat messages to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+  }, [chatMessages]);
 
-  const getResponse = (question) => {
+  // Quick reply options
+  const quickReplies = [
+    { text: "Training tips", icon: <FaBook />, category: "training" },
+    { text: "Health advice", icon: <FaHeartbeat />, category: "health" },
+    { text: "Feeding guide", icon: <FaUtensils />, category: "food" },
+    { text: "Grooming help", icon: <FaShower />, category: "grooming" },
+    { text: "Exercise ideas", icon: <FaRunning />, category: "play" },
+    { text: "Emergency care", icon: <RiFirstAidKitFill />, category: "emergency" },
+    { text: "Dog specific", icon: <FaDog />, category: "dog" },
+    { text: "Cat specific", icon: <FaCat />, category: "cat" },
+  ];
+
+  const getResponse = (question, category = null) => {
     const lowercaseQuestion = question.toLowerCase();
     
+    // If a category was provided, prioritize that category
+    if (category) {
+      switch(category) {
+        case "training":
+          return "Consistency is key for pet training! Start with basic commands like 'sit' and 'stay' using positive reinforcement. Short, regular training sessions work better than long, infrequent ones. Would you like specific tips for your pet's breed?";
+        case "health":
+          return "Regular vet check-ups are important! Watch for changes in behavior, appetite, or energy levels as these may indicate health issues. Keep vaccinations up-to-date and maintain parasite prevention. Is your pet due for a check-up?";
+        case "food":
+          return "A balanced diet is essential for your pet's health. Ensure they have appropriate food for their age, size, and health needs. Always provide fresh water and consult your vet for specific dietary recommendations. What type of pet do you have?";
+        case "grooming":
+          return "Regular grooming keeps your pet healthy and comfortable. Brushing helps reduce shedding and prevents matting. The bathing frequency depends on your pet's breed and lifestyle. Would you like specific grooming tips for your pet?";
+        case "play":
+          return "Daily exercise and play are crucial for your pet's physical and mental health. Different breeds have different exercise needs, but all pets benefit from regular activity and mental stimulation. What activities does your pet enjoy?";
+        case "emergency":
+          return "If your pet is experiencing an emergency, please contact your veterinarian or emergency animal hospital immediately. For minor issues, keep a pet first aid kit handy with gauze, non-stick bandages, pet-safe antiseptic, and contact information for poison control. Is this an emergency situation?";
+        case "dog":
+          return "Dogs are social animals that thrive on companionship and routine. Regular exercise, training, and mental stimulation are essential. Would you like specific advice for your dog's breed or age?";
+        case "cat":
+          return "Cats are independent but still need attention and care. They benefit from scratching posts, climbing opportunities, and interactive play. Would you like specific advice for your cat's age or behavior?";
+        default:
+          break;
+      }
+    }
+    
+    // If no category or no match found, use the existing logic
     if (lowercaseQuestion.includes("training") || lowercaseQuestion.includes("train")) {
-      return "Consistency is key for pet training! Start with basic commands like 'sit' and 'stay' using positive reinforcement. Short, regular training sessions work better than long, infrequent ones.";
+      return "Consistency is key for pet training! Start with basic commands like 'sit' and 'stay' using positive reinforcement. Short, regular training sessions work better than long, infrequent ones. Would you like specific tips for your pet's breed?";
     } else if (lowercaseQuestion.includes("food") || lowercaseQuestion.includes("feeding") || lowercaseQuestion.includes("diet")) {
-      return "A balanced diet is essential for your pet's health. Ensure they have appropriate food for their age, size, and health needs. Always provide fresh water and consult your vet for specific dietary recommendations.";
+      return "A balanced diet is essential for your pet's health. Ensure they have appropriate food for their age, size, and health needs. Always provide fresh water and consult your vet for specific dietary recommendations. What type of pet do you have?";
     } else if (lowercaseQuestion.includes("health") || lowercaseQuestion.includes("vet") || lowercaseQuestion.includes("sick")) {
-      return "Regular vet check-ups are important! Watch for changes in behavior, appetite, or energy levels as these may indicate health issues. Keep vaccinations up-to-date and maintain parasite prevention.";
+      return "Regular vet check-ups are important! Watch for changes in behavior, appetite, or energy levels as these may indicate health issues. Keep vaccinations up-to-date and maintain parasite prevention. Is your pet due for a check-up?";
     } else if (lowercaseQuestion.includes("grooming") || lowercaseQuestion.includes("bath")) {
-      return "Regular grooming keeps your pet healthy and comfortable. Brushing helps reduce shedding and prevents matting. The bathing frequency depends on your pet's breed and lifestyle.";
+      return "Regular grooming keeps your pet healthy and comfortable. Brushing helps reduce shedding and prevents matting. The bathing frequency depends on your pet's breed and lifestyle. Would you like specific grooming tips for your pet?";
     } else if (lowercaseQuestion.includes("play") || lowercaseQuestion.includes("toys") || lowercaseQuestion.includes("exercise")) {
-      return "Daily exercise and play are crucial for your pet's physical and mental health. Different breeds have different exercise needs, but all pets benefit from regular activity and mental stimulation.";
+      return "Daily exercise and play are crucial for your pet's physical and mental health. Different breeds have different exercise needs, but all pets benefit from regular activity and mental stimulation. What activities does your pet enjoy?";
     } else if (lowercaseQuestion.includes("hi") || lowercaseQuestion.includes("hello") || lowercaseQuestion.includes("hey")) {
       return "Hello! How can I help you with your pet today? Feel free to ask about training, health, nutrition, or any other pet-related concerns!";
     } else if (lowercaseQuestion.includes("emergency") || lowercaseQuestion.includes("hurt")) {
-      return "If your pet is experiencing an emergency, please contact your veterinarian or emergency animal hospital immediately. For minor issues, keep a pet first aid kit handy with gauze, non-stick bandages, pet-safe antiseptic, and contact information for poison control.";
+      return "If your pet is experiencing an emergency, please contact your veterinarian or emergency animal hospital immediately. For minor issues, keep a pet first aid kit handy with gauze, non-stick bandages, pet-safe antiseptic, and contact information for poison control. Is this an emergency situation?";
     } else if (lowercaseQuestion.includes("behavior") || lowercaseQuestion.includes("aggressive")) {
-      return "Pet behavior issues often stem from anxiety, fear, or lack of training. Consult with a professional animal behaviorist for persistent problems. For minor issues, ensure your pet has proper exercise, mental stimulation, and consistent training.";
+      return "Pet behavior issues often stem from anxiety, fear, or lack of training. Consult with a professional animal behaviorist for persistent problems. For minor issues, ensure your pet has proper exercise, mental stimulation, and consistent training. Can you tell me more about the behavior you're seeing?";
+    } else if (lowercaseQuestion.includes("dog") || lowercaseQuestion.includes("puppy")) {
+      return "Dogs are social animals that thrive on companionship and routine. Regular exercise, training, and mental stimulation are essential. Would you like specific advice for your dog's breed or age?";
+    } else if (lowercaseQuestion.includes("cat") || lowercaseQuestion.includes("kitten")) {
+      return "Cats are independent but still need attention and care. They benefit from scratching posts, climbing opportunities, and interactive play. Would you like specific advice for your cat's age or behavior?";
     } else {
       return "Thank you for your question! Our pet experts would be happy to help with this specific inquiry. Please provide more details about your pet and we'll give you the best advice possible.";
     }
@@ -58,6 +109,15 @@ function App() {
       messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [chatMessages]);
+
+  // Focus on input when chat is opened
+  useEffect(() => {
+    if (showChat && messageInputRef.current) {
+      setTimeout(() => {
+        messageInputRef.current.focus();
+      }, 300);
+    }
+  }, [showChat]);
 
   // Animation observer
   useEffect(() => {
@@ -85,24 +145,32 @@ function App() {
     }
   };
 
-  const sendMessage = async () => {
-    if (!message.trim()) {
+  const handleQuickReply = (category) => {
+    const quickReplyText = quickReplies.find(reply => reply.category === category).text;
+    setMessage(quickReplyText);
+    sendMessage(quickReplyText, category);
+  };
+
+  const sendMessage = async (messageText = message, category = null) => {
+    const textToSend = messageText || message;
+    if (!textToSend.trim()) {
       return;
     }
 
     try {
       setIsLoading(true);
+      setShowQuickReplies(false);
       
       // Add the user message to chat history
       const newUserMessage = {
-        text: message,
+        text: textToSend,
         isUser: true,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setChatMessages(prev => [...prev, newUserMessage]);
       
       // Get response based on user's question
-      const botAnswer = getResponse(message);
+      const botAnswer = getResponse(textToSend, category);
       
       // Simulate a small delay to make it feel more natural
       setTimeout(() => {
@@ -113,7 +181,10 @@ function App() {
         };
         setChatMessages(prev => [...prev, botResponse]);
         setIsLoading(false);
-      }, 1000);
+        
+        // Show quick replies after bot responds
+        setShowQuickReplies(true);
+      }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
       
       // Clear message input
       setMessage("");
@@ -123,6 +194,23 @@ function App() {
       setIsLoading(false);
     }
   };
+
+  const clearChat = () => {
+    setChatMessages([]);
+    localStorage.removeItem('chatMessages');
+  };
+
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const addEmoji = (emoji) => {
+    setMessage(prev => prev + emoji);
+    setShowEmojiPicker(false);
+  };
+
+  // Simple emoji list - in a real app, you'd use a proper emoji picker library
+  const commonEmojis = ["😊", "❤️", "👍", "🐕", "🐱", "🐾", "🎾", "🏥", "🦮", "🐈"];
 
   return (
     <div className="app-container">
@@ -134,22 +222,58 @@ function App() {
       </Navbar>
 
       {/* Hero Section */}
-      <div className="hero-section">
-        <Image />
-        <div className="hero-content">
-          <h1 className="hero-title slide-up">Welcome to Pet Connect</h1>
-          <p className="hero-subtitle fade-in">Your complete solution for pet training and emergency care</p>
-          <div className="hero-buttons">
-            <button className="primary-btn slide-in-left" onClick={() => scrollToSection(featuresSectionRef)}>
-              Explore Services
-            </button>
-            <button className="secondary-btn slide-in-right" onClick={() => navigate("/about")}>
+      <div className="hero-section" style={{
+        position: 'relative',
+        minHeight: '100vh',
+        width: '100%',
+        backgroundImage: `url('/petconnect.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: '0 5%',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 1
+        }
+      }}>
+        <div className="hero-content" style={{
+          position: 'relative',
+          zIndex: 2,
+          maxWidth: '600px',
+          padding: '2rem',
+          color: 'white',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
+        }}>
+          <h1 style={{
+            fontSize: '4rem',
+            marginBottom: '1.5rem',
+            fontWeight: 'bold',
+            lineHeight: '1.2'
+          }}>Welcome to PetConnect</h1>
+          <p style={{
+            fontSize: '1.5rem',
+            marginBottom: '2.5rem',
+            opacity: 0.9,
+            lineHeight: '1.6',
+            fontWeight: '300',
+            letterSpacing: '0.01em'
+          }}>Your trusted platform for pet care and companionship</p>
+          <div className="button-container">
+            <a href="#features" className="primary-btn">
+              Get Started
+            </a>
+            <a href="/about" className="secondary-btn">
               About Us
-            </button>
-          </div>
-          <div className="scroll-indicator" onClick={() => scrollToSection(featuresSectionRef)}>
-            <span>Scroll Down</span>
-            <BsChevronDown className="bounce" />
+            </a>
           </div>
         </div>
       </div>
@@ -228,9 +352,14 @@ function App() {
         <div className="chat-popup">
           <div className="chat-header">
             <h3><FaPaw style={{ marginRight: '8px' }} /> Pet Connect Chat</h3>
-            <button className="close-chat" onClick={() => setShowChat(false)}>
-              ×
-            </button>
+            <div className="chat-actions">
+              <button className="clear-chat" onClick={clearChat} title="Clear chat history">
+                <FaQuestionCircle />
+              </button>
+              <button className="close-chat" onClick={() => setShowChat(false)}>
+                ×
+              </button>
+            </div>
           </div>
           
           <div className="chat-messages">
@@ -258,8 +387,53 @@ function App() {
             <div ref={messageEndRef} />
           </div>
           
+          {showQuickReplies && chatMessages.length > 0 && (
+            <div className="quick-replies">
+              {quickReplies.map((reply, index) => (
+                <button 
+                  key={index} 
+                  className="quick-reply-btn"
+                  onClick={() => handleQuickReply(reply.category)}
+                >
+                  {reply.icon} {reply.text}
+                </button>
+              ))}
+            </div>
+          )}
+          
           <div className="chat-inputs">
+            <div className="input-actions">
+              <button 
+                className="action-btn" 
+                onClick={toggleEmojiPicker}
+                title="Add emoji"
+              >
+                <BsEmojiSmile />
+              </button>
+              <button 
+                className="action-btn" 
+                title="Attach file"
+              >
+                <BsPaperclip />
+              </button>
+            </div>
+            
+            {showEmojiPicker && (
+              <div className="emoji-picker">
+                {commonEmojis.map((emoji, index) => (
+                  <button 
+                    key={index} 
+                    className="emoji-btn"
+                    onClick={() => addEmoji(emoji)}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            )}
+            
             <textarea
+              ref={messageInputRef}
               placeholder="Type your message here..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -267,7 +441,7 @@ function App() {
               className="message-input"
             />
             <button 
-              onClick={sendMessage} 
+              onClick={() => sendMessage()} 
               disabled={isLoading}
               className="send-button"
             >
