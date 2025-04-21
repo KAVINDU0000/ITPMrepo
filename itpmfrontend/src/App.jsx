@@ -222,51 +222,10 @@ function App() {
       </Navbar>
 
       {/* Hero Section */}
-      <div className="hero-section" style={{
-        position: 'relative',
-        minHeight: '100vh',
-        width: '100%',
-        backgroundImage: `url('/petconnect.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        padding: '0 5%',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          zIndex: 1
-        }
-      }}>
-        <div className="hero-content" style={{
-          position: 'relative',
-          zIndex: 2,
-          maxWidth: '600px',
-          padding: '2rem',
-          color: 'white',
-          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
-        }}>
-          <h1 style={{
-            fontSize: '4rem',
-            marginBottom: '1.5rem',
-            fontWeight: 'bold',
-            lineHeight: '1.2'
-          }}>Welcome to PetConnect</h1>
-          <p style={{
-            fontSize: '1.5rem',
-            marginBottom: '2.5rem',
-            opacity: 0.9,
-            lineHeight: '1.6',
-            fontWeight: '300',
-            letterSpacing: '0.01em'
-          }}>Your trusted platform for pet care and companionship</p>
+      <div className="hero-section">
+        <div className="hero-content">
+          <h1>Welcome to PetConnect</h1>
+          <p>Your trusted platform for pet care and companionship</p>
           <div className="button-container">
             <a href="#features" className="primary-btn">
               Get Started
