@@ -1,4 +1,4 @@
-// models/PetSymptomModel.js
+
 
 class PetSymptomModel {
   constructor() {
