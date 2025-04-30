@@ -3,17 +3,20 @@
 class PetSymptomModel {
   constructor() {
     this.symptoms = [
-      "Acting Weird", "Diarrhea", "Itching", "Vomiting", "Vomiting and Diarrhea",
-      "Aggression", "Bad Breath", "Bleeding", "Blood in Stool", "Blood in Urine",
-      "Breathing Problems", "Coughing", "Crying", "Depression", "Ear Problems",
-      "Eye Problems", "Fever", "Hair Loss", "Head Tilt", "Lethargic",
-      "Limping", "Loss of Appetite", "Lumps", "Pain", "Panting",
-      "Paralysis", "Reverse Sneezing", "Seizures", "Shaking", "Skin Problems",
-      "Sneezing", "Stiffness", "Swelling", "Urination Changes", "Weight Loss",
-      "Anal Gland Problems", "Bloating", "Constipation", "Drooling", "Excessive Thirst",
-      "Flatulence", "Hiccups", "Mange", "Obesity", "Pale Gums",
-      "Runny Nose", "Scooting", "Snoring", "Stomach Noises", "Yellow Eyes",
-      "Excessive Licking", "Excessive Barking"
+   "Acting Weird", "Diarrhea", "Itching", "Vomiting", "Vomiting and Diarrhea",
+"Aggression", "Bad Breath", "Bleeding", "Blood in Stool", "Blood in Urine",
+"Breathing Problems", "Coughing", "Crying", "Depression", "Ear Problems",
+"Eye Problems", "Fever", "Hair Loss", "Head Tilt", "Lethargic",
+"Limping", "Loss of Appetite", "Lumps", "Pain", "Panting",
+"Paralysis", "Reverse Sneezing", "Seizures", "Shaking", "Skin Problems",
+"Sneezing", "Stiffness", "Swelling", "Urination Changes", "Weight Loss",
+"Anal Gland Problems", "Bloating", "Constipation", "Drooling", "Excessive Thirst",
+"Flatulence", "Hiccups", "Mange", "Obesity", "Pale Gums",
+"Runny Nose", "Scooting", "Snoring", "Stomach Noises", "Yellow Eyes",
+"Excessive Licking", "Excessive Barking", "Choking or Gagging", "Difficulty Walking or Coordination Issues",
+"Disorientation or Confusion", "Excessive Sleeping or Unresponsiveness", "Eye Discharge or Redness",
+"Cold Limbs or Extremities", "Tail Between Legs", "Colored Nasal Discharge", "Trembling",
+"Burns or Scalds", "Visible Wounds or Lacerations"
     ];
     
     this.firstAidInfo = {
