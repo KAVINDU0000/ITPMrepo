@@ -3,12 +3,12 @@
 class PetSymptomModel {
   constructor() {
     this.symptoms = [
-      "Unusual Behavior", "Diarrhea", "Itching", "Vomiting", "Vomiting and Diarrhea",
+      "Unusual Behavior", "Diarrhea", "Itching", "Vomiting",
       "Aggression", "Bad Breath", "Bleeding", "Blood in Stool", "Blood in Urine",
       "Breathing Problems", "Coughing", "Vocalizing or Whining", "Depression", "Ear Problems",
       "Eye Problems", "Eye Discharge or Redness", "Fever", "Hair Loss", "Head Tilt",
       "Lethargy", "Limping", "Loss of Appetite", "Lumps", "Signs of Pain",
-      "Panting", "Paralysis", "Reverse Sneezing", "Seizures", "Shaking",
+       "Paralysis", "Reverse Sneezing", "Seizures", "Shaking",
       "Skin Problems", "Sneezing", "Stiffness", "Swelling", "Urination Changes",
       "Weight Loss", "Anal Gland Problems", "Bloating", "Constipation", "Drooling",
       "Excessive Thirst", "Flatulence", "Hiccups", "Mange", "Obesity",
@@ -96,7 +96,7 @@ class PetSymptomModel {
         "Inflammatory bowel disease",
         "Stress or anxiety"
       ],
-      // Add more causes for other symptoms
+      
     };
     
     // Age-specific considerations for different symptoms
@@ -432,7 +432,22 @@ class PetSymptomModel {
     // Add preventive advice based on symptom, age, and neuter/spay status
     recommendation += "Preventive Measures:\n";
 
-    if (mainSymptom === "Vomiting" || mainSymptom === "Diarrhea") {
+    // Unusual Behavior
+ if (mainSymptom === "Unusual Behavior") {
+  recommendation += "• Observe your pet closely to identify any triggers or changes in their environment\n";
+  recommendation += "• Unusual behavior may be due to stress, illness, or neurological issues, so consult a vet if it persists\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies are naturally energetic and curious, but sudden behavioral changes may indicate stress, fear, or health problems\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, unusual behavior can be a sign of cognitive dysfunction, pain, or vision/hearing loss\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets showing unusual behavior may be reacting to environmental stress or early signs of illness, so monitor and consult a vet\n";
+  }
+}
+
+
+    else if (mainSymptom === "Vomiting" || mainSymptom === "Diarrhea") {
       recommendation += "• Maintain a consistent diet and avoid sudden food changes\n";
       recommendation += "• Keep potentially harmful foods, plants, and objects out of reach\n";
       recommendation += "• Ensure clean, fresh water is always available to prevent dehydration\n";
@@ -560,7 +575,7 @@ else if (mainSymptom === "Swelling" || mainSymptom === "Lumps") {
 
 
 // Pain or Discomfort
-else if (mainSymptom === "Pain" || mainSymptom === "Discomfort") {
+else if ( mainSymptom === "Discomfort") {
   recommendation += "• Monitor for signs like limping, whining, excessive licking, or changes in behavior\n";
   recommendation += "• Avoid giving human medications unless prescribed by a veterinarian\n";
 
@@ -575,6 +590,8 @@ else if (mainSymptom === "Pain" || mainSymptom === "Discomfort") {
     recommendation += "• Provide comfortable bedding and ramps to reduce physical strain\n";
   }
 }
+
+
 
 // Bleeding
 else if (mainSymptom === "Bleeding") {
@@ -910,6 +927,490 @@ else if (mainSymptom === "Blood in Urine") {
     recommendation += "• Ensure that your pet is properly hydrated and monitor their urination habits\n";
   }
 }
+
+// Vocalizing or Whining
+else if (mainSymptom === "Vocalizing or Whining") {
+  recommendation += "• Try to identify and eliminate sources of stress, discomfort, or fear in your pet’s environment\n";
+  recommendation += "• Ensure your pet is getting enough attention, mental stimulation, and physical exercise\n";
+  recommendation += "• Monitor for signs of pain, anxiety, or illness and consult a vet if whining is persistent or unusual\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may whine due to separation anxiety or discomfort during teething—use comfort items and establish routines\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may vocalize due to boredom or unmet needs—consider interactive toys and more engagement\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets might whine due to cognitive decline or chronic pain, so monitor closely and consult your vet\n";
+  }
+}
+
+// Depression
+else if (mainSymptom === "Depression") {
+  recommendation += "• Spend more quality time with your pet and maintain a consistent routine to provide comfort\n";
+  recommendation += "• Provide physical activity, mental stimulation, and interactive toys to help lift their mood\n";
+  recommendation += "• If symptoms persist, consult your vet to rule out underlying health or behavioral issues\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Depression in puppies may result from lack of socialization or sudden changes—ensure gentle training and social time\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may become depressed due to environmental changes, such as a new home or loss of a companion\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Depression in senior pets may relate to health decline or sensory loss—schedule a wellness exam\n";
+  }
+}
+
+
+// Ear Problems
+else if (mainSymptom === "Ear Problems") {
+  recommendation += "• Gently clean your pet’s ears with a vet-approved solution if you notice discharge or odor\n";
+  recommendation += "• Avoid letting water enter the ears during baths, as moisture can promote infections\n";
+  recommendation += "• Consult a vet if symptoms like head shaking, scratching, redness, or swelling persist\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies are prone to ear mites and infections—ensure regular vet check-ups and gentle cleaning\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may develop allergies or yeast infections—observe for frequent scratching or odor\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may suffer from chronic ear conditions—maintain consistent care and vet evaluations\n";
+  }
+}
+
+// Eye Problems
+else if (mainSymptom === "Eye Problems") {
+  recommendation += "• Gently clean any discharge around your pet’s eyes with a damp, soft cloth\n";
+  recommendation += "• Avoid allowing your pet to rub or scratch their eyes to prevent injury\n";
+  recommendation += "• Seek veterinary attention if there is redness, cloudiness, swelling, or constant squinting\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may develop eye infections or congenital issues—monitor closely for abnormal signs\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may experience allergic reactions or irritants—ensure a clean environment\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets are at higher risk of cataracts or glaucoma—schedule regular eye exams\n";
+  }
+}
+
+// Eye Discharge or Redness
+else if (mainSymptom === "Eye Discharge or Redness") {
+  recommendation += "• Gently wipe away discharge with a clean, damp cloth to prevent crust buildup\n";
+  recommendation += "• Avoid using human eye drops or medications without veterinary guidance\n";
+  recommendation += "• Seek veterinary care if redness persists, as it may indicate infection, injury, or allergies\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may develop eye discharge due to mild infections or irritants—keep their bedding clean\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Eye redness in adults could result from foreign particles or environmental allergies\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In older pets, persistent eye discharge or redness could signal cataracts or chronic dry eye\n";
+  }
+}
+
+// Fever
+else if (mainSymptom === "Fever") {
+  recommendation += "• Keep your pet cool and ensure they have access to fresh water at all times\n";
+  recommendation += "• Monitor for other symptoms such as lethargy, vomiting, or diarrhea and consult a vet if these occur\n";
+  recommendation += "• Seek veterinary care if the fever persists for more than a day or worsens, as it may indicate a serious infection\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Fever in puppies can be a sign of a viral infection, so ensure they are up-to-date on vaccinations\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• In adult pets, fever can be caused by infections or immune system disorders, so it's important to identify the root cause\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets with a fever may have underlying health issues such as kidney disease or cancer, so a veterinary evaluation is essential\n";
+  }
+}
+
+// Hair Loss
+else if (mainSymptom === "Hair Loss") {
+  recommendation += "• Monitor for signs of skin infections or allergies, which can contribute to hair loss\n";
+  recommendation += "• Ensure your pet is on a balanced diet rich in essential vitamins and minerals for healthy fur\n";
+  recommendation += "• Consult your vet for a thorough diagnosis, as hair loss could be due to hormonal imbalances, parasites, or fungal infections\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Hair loss in puppies can be a result of teething or fungal infections, so ensure proper grooming and hygiene\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• In adult pets, hair loss can be related to stress, allergies, or even hormonal imbalances, so a vet visit is recommended\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets may experience hair loss due to age-related conditions like hypothyroidism or alopecia, so a check-up is necessary\n";
+  }
+}
+
+// Head Tilt
+else if (mainSymptom === "Head Tilt") {
+  recommendation += "• Head tilt can be a sign of an ear infection, vestibular disease, or neurological issues, so seek veterinary attention\n";
+  recommendation += "• Keep your pet in a safe, comfortable position to prevent injury, especially if they are disoriented\n";
+  recommendation += "• Monitor for other symptoms such as loss of balance, nausea, or unusual eye movements, which could indicate a more serious condition\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• In puppies, head tilt could be caused by ear infections or congenital issues, so prompt vet care is important\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Head tilt in adult pets could be related to vestibular disease or an injury, requiring a vet's assessment for proper treatment\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets are more prone to age-related neurological conditions, so head tilt in older pets should be evaluated by a vet\n";
+  }
+}
+
+// Signs of Pain
+else if (mainSymptom === "Signs of Pain") {
+  recommendation += "• Observe your pet closely for signs of discomfort such as whining, limping, or changes in behavior\n";
+  recommendation += "• Avoid physical exertion and provide a comfortable, quiet space for your pet to rest\n";
+  recommendation += "• Seek veterinary care for a proper diagnosis and pain management plan\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience pain due to teething or minor injuries, so monitor their behavior and consult a vet if needed\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may experience pain from injuries or chronic conditions like arthritis, so consult a vet for a pain management plan\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets are more prone to joint pain or age-related conditions like arthritis, so regular vet check-ups are essential for pain management\n";
+  }
+}
+
+// Paralysis
+else if (mainSymptom === "Paralysis") {
+  recommendation += "• Seek immediate veterinary care, as paralysis can be a sign of severe neurological issues or injury\n";
+  recommendation += "• Keep your pet comfortable and prevent them from moving around excessively to avoid further injury\n";
+  recommendation += "• Follow the vet’s advice on rehabilitation or physical therapy if recommended for recovery\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• In puppies, paralysis could result from birth defects, infections, or trauma, so early veterinary intervention is crucial\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may experience paralysis from severe injuries or neurological conditions, so timely diagnosis and treatment are essential\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets are more prone to spinal issues, arthritis, or nerve damage that could lead to paralysis, so ensure prompt veterinary attention\n";
+  }
+}
+
+// Reverse Sneezing
+else if (mainSymptom === "Reverse Sneezing") {
+  recommendation += "• Stay calm—reverse sneezing is usually harmless and passes quickly\n";
+  recommendation += "• Gently massage your pet’s throat or briefly cover their nostrils to help stop the episode\n";
+  recommendation += "• Monitor the frequency; if episodes are frequent or severe, consult your vet to rule out underlying issues\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience reverse sneezing due to excitement, pulling on leashes, or irritants—observe carefully and limit triggers\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• In adults, reverse sneezing can be triggered by allergies, irritants, or minor throat inflammation—monitor environmental factors\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In seniors, rule out more serious causes such as collapsing trachea or nasal tumors if reverse sneezing becomes persistent\n";
+  }
+}
+
+// Shaking
+else if (mainSymptom === "Shaking") {
+  recommendation += "• Keep your pet warm and comfortable, especially if the shaking seems related to cold or anxiety\n";
+  recommendation += "• Observe for other symptoms like vomiting, diarrhea, or lethargy that could indicate a more serious issue\n";
+  recommendation += "• If shaking persists or worsens, seek veterinary attention to rule out pain, poisoning, or neurological problems\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Shaking in puppies may be due to excitement, fear, or low blood sugar—monitor closely and feed on time\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adults may shake due to stress, toxin exposure, or illness—review recent changes in their environment\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, shaking can indicate pain from arthritis or neurological conditions—schedule a vet check-up\n";
+  }
+}
+
+// Sneezing
+else if (mainSymptom === "Sneezing") {
+  recommendation += "• Keep your pet away from dust, smoke, or strong odors that may irritate their nasal passages\n";
+  recommendation += "• Monitor for additional symptoms like nasal discharge or lethargy that may indicate an infection\n";
+  recommendation += "• If sneezing persists for more than a couple of days, consult your veterinarian for a proper diagnosis\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may sneeze due to new environmental allergens or upper respiratory infections—monitor closely\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adults may sneeze due to allergies, foreign particles, or mild infections—ensure proper hygiene and check for triggers\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In seniors, sneezing could be linked to dental issues or chronic respiratory problems—seek veterinary advice\n";
+  }
+}
+
+// Stiffness
+else if (mainSymptom === "Stiffness") {
+  recommendation += "• Provide a warm, comfortable resting area for your pet to help ease joint stiffness\n";
+  recommendation += "• Avoid strenuous activity and monitor for difficulty moving or getting up\n";
+  recommendation += "• Schedule a vet visit to evaluate for arthritis, injury, or other musculoskeletal issues\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• In puppies, stiffness may be due to rapid growth or minor sprains—ensure safe play and proper nutrition\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adults may develop stiffness from overexertion or joint stress—consider joint supplements or a modified activity routine\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets commonly suffer from arthritis or hip dysplasia—consult your vet for pain relief and mobility support\n";
+  }
+}
+
+// Bloating
+else if (mainSymptom === "Bloating") {
+  recommendation += "• Seek immediate veterinary care if your pet's abdomen appears swollen or they show signs of discomfort\n";
+  recommendation += "• Avoid vigorous activity right before or after meals to reduce the risk of bloat\n";
+  recommendation += "• Feed smaller, more frequent meals and consider using a slow feeder bowl to reduce air intake\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may bloat from overeating or swallowing air—monitor feeding habits closely\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adults, especially large breeds, are at higher risk of gastric dilatation-volvulus (GDV); know the warning signs\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In seniors, bloating may indicate underlying digestive or organ issues that require prompt attention\n";
+  }
+}
+
+// Constipation
+else if (mainSymptom === "Constipation") {
+  recommendation += "• Ensure your pet has access to plenty of fresh water to stay hydrated\n";
+  recommendation += "• Increase dietary fiber intake with vet-approved food or supplements\n";
+  recommendation += "• Provide regular exercise to promote healthy digestion and bowel movements\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may become constipated from dietary changes or swallowing foreign objects—monitor closely\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• In adults, constipation can result from low-fiber diets or lack of activity—adjust routine as needed\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Seniors may suffer from slowed digestion or medical conditions—consult a vet for chronic issues\n";
+  }
+}
+
+// Hiccups
+else if (mainSymptom === "Hiccups") {
+  recommendation += "• Hiccups are usually harmless, but monitor for excessive or prolonged occurrences\n";
+  recommendation += "• Avoid feeding your pet too quickly, as this can contribute to hiccups\n";
+  recommendation += "• Ensure your pet's environment is calm and stress-free, as anxiety may trigger hiccups\n";
+  
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience hiccups as a normal part of development, but monitor for other symptoms\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may experience hiccups due to aging-related changes or digestive issues, so monitor their health\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider adjusting your pet’s feeding routine, and if hiccups persist, consult with a veterinarian\n";
+  }
+}
+
+// Mange
+else if (mainSymptom === "Mange") {
+  recommendation += "• Mange is a skin condition caused by mites, and it is highly contagious, so isolate your pet from other animals\n";
+  recommendation += "• Consult a vet for proper diagnosis and treatment, as mange requires medicated treatments\n";
+  recommendation += "• Bathe your pet with prescribed medicated shampoos and follow your vet’s instructions for treatment\n";
+  
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies with mange may experience more severe symptoms due to their developing immune systems, so early vet intervention is crucial\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may have weakened immune systems, making them more susceptible to severe cases of mange, so prompt veterinary care is essential\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may recover more quickly with proper treatment, but make sure to follow the vet’s guidelines for managing mange\n";
+  }
+}
+
+// Obesity
+else if (mainSymptom === "Obesity") {
+  recommendation += "• Obesity can lead to serious health problems such as diabetes, arthritis, and heart disease, so consult your vet for a weight management plan\n";
+  recommendation += "• Provide a balanced diet and ensure your pet is getting the right amount of exercise tailored to their breed and age\n";
+  recommendation += "• Avoid overfeeding and resist giving table scraps or high-calorie treats to prevent weight gain\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies need a balanced diet to promote healthy growth, but avoid overfeeding to prevent obesity later in life\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may become less active, so a controlled diet and regular, moderate exercise are crucial to prevent obesity-related health issues\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may require more tailored diets based on their activity levels to maintain a healthy weight\n";
+  }
+}
+
+// Pale Gums
+else if (mainSymptom === "Pale Gums") {
+  recommendation += "• Pale gums may indicate anemia or circulatory problems, so seek veterinary attention immediately\n";
+  recommendation += "• Keep your pet calm and avoid strenuous activities while awaiting veterinary care\n";
+  recommendation += "• Monitor other symptoms such as lethargy or loss of appetite, as they may indicate a more serious underlying condition\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Pale gums in puppies can indicate infections or congenital conditions, so it's essential to get a vet check-up as soon as possible\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, pale gums could indicate chronic conditions like kidney disease or anemia, requiring immediate veterinary attention\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may experience pale gums due to blood loss, infections, or systemic diseases, so it's crucial to consult a vet for an accurate diagnosis\n";
+  }
+}
+
+
+// Runny Nose
+else if (mainSymptom === "Runny Nose") {
+  recommendation += "• Keep your pet indoors in a warm, dry environment to avoid further irritation\n";
+  recommendation += "• Monitor the nasal discharge for color and consistency (clear vs. colored), as this can help diagnose the cause\n";
+  recommendation += "• Consult with your vet if the runny nose persists for more than a few days or if accompanied by other symptoms like coughing or lethargy\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies are more susceptible to respiratory infections, so ensure they are up to date on vaccinations\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, a runny nose could indicate a chronic condition like sinusitis or respiratory issues, so a veterinary visit is important\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets may experience a runny nose due to allergies, infections, or environmental factors; consult a vet for further guidance\n";
+  }
+}
+
+// Scooting
+else if (mainSymptom === "Scooting") {
+  recommendation += "• Check for anal gland impaction or irritation as this is a common cause of scooting\n";
+  recommendation += "• Keep your pet's rear clean and free from fecal matter to prevent further discomfort\n";
+  recommendation += "• Consult your vet to determine if a more serious issue like allergies or infections is causing the scooting\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Scooting in puppies may be due to teething or mild anal gland irritation, so ensure proper grooming\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets may experience more frequent scooting due to anal gland issues, arthritis, or gastrointestinal problems; regular vet checks are recommended\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet or consult with your veterinarian for a recommended diet that helps maintain proper digestive health\n";
+  }
+}
+
+// Choking or Gagging
+else if (mainSymptom === "Choking or Gagging") {
+  recommendation += "• Ensure your pet is in a safe environment to prevent further choking and avoid giving them small objects that can be swallowed\n";
+  recommendation += "• If choking is severe, seek immediate veterinary help, as it may require emergency intervention\n";
+  recommendation += "• Observe your pet closely and note the frequency or duration of the gagging, as this could indicate a more serious issue\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies often explore by putting things in their mouths; ensure that small objects are out of their reach to prevent choking\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may experience gagging due to dental issues, airway obstruction, or swallowing difficulties; regular check-ups are essential\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a change in diet if choking is related to food size or consistency, and consult your vet for advice on food types\n";
+  }
+}
+
+// Difficulty Walking or Coordination Issues
+else if (mainSymptom === "Difficulty Walking or Coordination Issues") {
+  recommendation += "• Ensure your pet is in a safe environment to prevent falls or injury while they are having difficulty walking\n";
+  recommendation += "• Consult your vet immediately, as difficulty walking may be a sign of neurological issues, injury, or joint problems\n";
+  recommendation += "• Monitor for other symptoms such as weakness, tremors, or pain, as these can provide important clues to the cause\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience coordination issues from underdeveloped muscles or growth spurts, but always check with a vet for any abnormalities\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, difficulty walking could be a sign of arthritis, muscle degeneration, or neurological decline; a vet visit is important for diagnosis\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• If your adult pet is experiencing coordination issues, it could be due to injury, joint problems, or neurological conditions; consult with your vet\n";
+  }
+}
+
+// Disorientation or Confusion
+else if (mainSymptom === "Disorientation or Confusion") {
+  recommendation += "• Ensure your pet is in a calm and familiar environment to reduce confusion or anxiety\n";
+  recommendation += "• Consult a vet immediately, as disorientation may be a sign of neurological conditions, poisoning, or underlying health issues\n";
+  recommendation += "• Monitor for other signs like changes in behavior, coordination issues, or weakness, as these can indicate more serious problems\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may experience confusion due to new experiences, lack of sleep, or even infections; always check with a vet to rule out serious causes\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, disorientation may be related to cognitive dysfunction syndrome, age-related neurological decline, or even vision issues\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets experiencing confusion may have an underlying issue like injury, poisoning, or neurological concerns, so immediate vet care is recommended\n";
+  }
+}
+
+// Excessive Sleeping or Unresponsiveness
+else if (mainSymptom === "Excessive Sleeping or Unresponsiveness") {
+  recommendation += "• Ensure your pet is not in a stressful or overly stimulating environment; provide a calm and quiet space for rest\n";
+  recommendation += "• Monitor your pet's behavior closely for signs of other health issues like lethargy, weakness, or changes in appetite\n";
+  recommendation += "• Consult your vet to rule out serious conditions such as infections, poisoning, metabolic disorders, or neurological issues\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies tend to sleep more than adults, but if they are unresponsive or difficult to wake, it may indicate an underlying infection or other health issue\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets may sleep more due to age-related conditions, but excessive sleeping or unresponsiveness could also signal cognitive decline, kidney disease, or other serious conditions\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Adult pets experiencing excessive sleepiness may have an underlying health issue, so it's important to consult with a veterinarian to rule out conditions like viral infections, anemia, or hypothyroidism\n";
+  }
+}
+
+// Cold Limbs or Extremities
+else if (mainSymptom === "Cold Limbs or Extremities") {
+  recommendation += "• Ensure your pet is in a warm environment and keep them cozy with blankets or a heating pad\n";
+  recommendation += "• Monitor for other signs of poor circulation or shock, such as pale gums or rapid breathing\n";
+  recommendation += "• Consult your vet immediately, as cold limbs could indicate circulation problems, hypothermia, or a more serious underlying condition\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies can be more susceptible to cold temperatures, so keep them in a warm, safe space and check for signs of low body temperature\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, cold extremities could be a sign of circulatory issues or arthritis, so a vet visit is important for diagnosis and treatment\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Cold limbs in adult pets may be due to poor circulation or stress; monitor their overall health and consult your vet if symptoms persist\n";
+  }
+}
+
+// Tail Between Legs
+else if (mainSymptom === "Tail Between Legs") {
+  recommendation += "• Tail tucked between the legs often indicates fear, anxiety, or stress, so ensure your pet feels safe and comfortable\n";
+  recommendation += "• Monitor for other signs of distress, such as excessive panting or hiding, and try to identify any environmental stressors\n";
+  recommendation += "• Consult a vet if the behavior persists, as it could also be a sign of pain, discomfort, or injury\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may tuck their tails due to unfamiliar environments, new experiences, or fear, so provide gentle reassurance and positive reinforcement\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, a tucked tail could be due to joint pain or discomfort, so keep an eye out for other signs of aging-related issues and consult your vet\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider any potential changes in routine, interactions, or environment that could be causing stress, and consult your vet if necessary\n";
+  }
+}
+
+// Colored Nasal Discharge
+else if (mainSymptom === "Colored Nasal Discharge") {
+  recommendation += "• Colored nasal discharge (green, yellow, or brown) can indicate an infection, such as a bacterial or fungal infection, so consult your vet immediately\n";
+  recommendation += "• Keep your pet's environment clean and ensure they are not exposed to irritants or allergens that could worsen the condition\n";
+  recommendation += "• Monitor for other signs of illness, such as coughing, sneezing, or lethargy, and provide supportive care while awaiting veterinary consultation\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• In puppies, nasal discharge may be a sign of respiratory infections, so ensure they are up-to-date on vaccinations and seek vet care if symptoms persist\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets may have weaker immune systems, so any nasal discharge should be taken seriously and evaluated by a vet to prevent complications\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider consulting with your vet if symptoms persist, as colored nasal discharge could also be a sign of allergies, respiratory infections, or sinusitis\n";
+  }
+}
+
+
+// Trembling
+else if (mainSymptom === "Trembling") {
+  recommendation += "• Trembling can be caused by stress, cold, or fear; provide a warm and calm environment for your pet\n";
+  recommendation += "• If trembling persists or is accompanied by other signs of illness, consult your vet to rule out underlying medical conditions like poisoning, injury, or neurological disorders\n";
+  recommendation += "• Monitor your pet for other symptoms like weakness, seizures, or loss of appetite, which may indicate more serious health issues\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Trembling in puppies may be due to anxiety or fear, so consider providing extra comfort and security to help them feel at ease\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• In senior pets, trembling could be due to arthritis or other age-related conditions, so consult your vet for a thorough examination\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• Consider a check-up with your vet if trembling is frequent or severe, as it could indicate a health concern that needs attention\n";
+  }
+}
+
+// Burns or Scalds
+else if (mainSymptom === "Burns or Scalds") {
+  recommendation += "• Immediately rinse the affected area with cool (not cold) water to remove heat and reduce further damage\n";
+  recommendation += "• Do not apply ice, ointments, or creams before consulting a vet, as these can interfere with proper treatment\n";
+  recommendation += "• Seek veterinary attention immediately for burns or scalds, as proper care is needed to prevent infection and complications\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may be more vulnerable to burns, so ensure they are kept away from hot surfaces or dangerous chemicals\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Older pets may take longer to heal from burns or scalds, so a prompt veterinary visit is crucial to assess the severity of the injury\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• For adult pets, ensure they are not exposed to hot surfaces or liquids, and monitor the injury closely until veterinary care is received\n";
+  }
+}
+
+// Visible Wounds or Lacerations
+else if (mainSymptom === "Visible Wounds or Lacerations") {
+  recommendation += "• Clean the wound gently with lukewarm water and mild soap to remove dirt and debris\n";
+  recommendation += "• Apply a sterile bandage to prevent infection, but do not use human bandages with chemicals or ointments\n";
+  recommendation += "• Seek veterinary attention immediately to assess the severity and determine the best course of treatment\n";
+
+  if (age === "Puppy (up to 2 years old)") {
+    recommendation += "• Puppies may have more sensitive skin, so be careful not to irritate the wound while cleaning or bandaging\n";
+  } else if (age === "Senior (8+ years old)") {
+    recommendation += "• Senior pets may have slower healing times, so it's important to ensure the wound is properly managed and monitored\n";
+  } else if (age === "Adult (2-7 years old)") {
+    recommendation += "• For adult pets, monitor for signs of infection like swelling, redness, or discharge, and follow up with your vet if necessary\n";
+  }
+}
+
 
 
 // Coughing
