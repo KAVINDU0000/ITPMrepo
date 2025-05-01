@@ -3,21 +3,22 @@
 class PetSymptomModel {
   constructor() {
     this.symptoms = [
-   "Acting Weird", "Diarrhea", "Itching", "Vomiting", "Vomiting and Diarrhea",
-"Aggression", "Bad Breath", "Bleeding", "Blood in Stool", "Blood in Urine",
-"Breathing Problems", "Coughing", "Crying", "Depression", "Ear Problems",
-"Eye Problems", "Fever", "Hair Loss", "Head Tilt", "Lethargic",
-"Limping", "Loss of Appetite", "Lumps", "Pain", "Panting",
-"Paralysis", "Reverse Sneezing", "Seizures", "Shaking", "Skin Problems",
-"Sneezing", "Stiffness", "Swelling", "Urination Changes", "Weight Loss",
-"Anal Gland Problems", "Bloating", "Constipation", "Drooling", "Excessive Thirst",
-"Flatulence", "Hiccups", "Mange", "Obesity", "Pale Gums",
-"Runny Nose", "Scooting", "Snoring", "Stomach Noises", "Yellow Eyes",
-"Excessive Licking", "Excessive Barking", "Choking or Gagging", "Difficulty Walking or Coordination Issues",
-"Disorientation or Confusion", "Excessive Sleeping or Unresponsiveness", "Eye Discharge or Redness",
-"Cold Limbs or Extremities", "Tail Between Legs", "Colored Nasal Discharge", "Trembling",
-"Burns or Scalds", "Visible Wounds or Lacerations"
+      "Unusual Behavior", "Diarrhea", "Itching", "Vomiting", "Vomiting and Diarrhea",
+      "Aggression", "Bad Breath", "Bleeding", "Blood in Stool", "Blood in Urine",
+      "Breathing Problems", "Coughing", "Vocalizing or Whining", "Depression", "Ear Problems",
+      "Eye Problems", "Eye Discharge or Redness", "Fever", "Hair Loss", "Head Tilt",
+      "Lethargy", "Limping", "Loss of Appetite", "Lumps", "Signs of Pain",
+      "Panting", "Paralysis", "Reverse Sneezing", "Seizures", "Shaking",
+      "Skin Problems", "Sneezing", "Stiffness", "Swelling", "Urination Changes",
+      "Weight Loss", "Anal Gland Problems", "Bloating", "Constipation", "Drooling",
+      "Excessive Thirst", "Flatulence", "Hiccups", "Mange", "Obesity",
+      "Pale Gums", "Runny Nose", "Scooting", "Snoring", "Stomach Noises",
+      "Yellow Eyes", "Excessive Licking", "Excessive Barking", "Choking or Gagging", "Difficulty Walking or Coordination Issues",
+      "Disorientation or Confusion", "Excessive Sleeping or Unresponsiveness", "Cold Limbs or Extremities",
+      "Tail Between Legs", "Colored Nasal Discharge", "Trembling", "Burns or Scalds",
+      "Visible Wounds or Lacerations"
     ];
+    
     
     this.firstAidInfo = {
       "Acting Weird": "Observe your pet closely for any other symptoms. Ensure they are safe and not in danger. Sudden behavior changes could indicate illness or pain. Contact your veterinarian for advice.",
