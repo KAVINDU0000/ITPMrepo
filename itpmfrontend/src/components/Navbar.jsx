@@ -67,7 +67,7 @@ function Navbar() {
           <li className="book-appointment">
             <Link to="/appointment" className="appointment-btn">
               <FaBell className="btn-icon" />
-              <span>Get Alert</span>
+              <span>Login</span>
             </Link>
           </li>
         </ul>
