@@ -10,6 +10,7 @@ import Adminpanel from "./Pages/Adminpanel.jsx";
 import PetSymptomChecker from "./Pages/PetSymptomChecker.jsx";
 import PetTrainingVideos from "./Pages/PetTrainingVideos.jsx";
 import Contactus from "./components/Contactus.jsx";
+import ChatBot from "./components/ChatBot.jsx";
 
 
 createRoot(document.getElementById("root")).render(
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/Pet" element={<PetSymptomChecker/>}/>
         <Route path="/Trainv" element={<PetTrainingVideos/>}/>
         <Route path="/contact" element={<Contactus/>}/>
+        <Route path="/ChatBot" element={<ChatBot/>} />
       
      </Routes>
 
