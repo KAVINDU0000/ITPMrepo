@@ -64,10 +64,16 @@ function Navbar() {
               <span>Contact</span>
             </Link>
           </li>
-          <li className="book-appointment">
-            <Link to="/appointment" className="appointment-btn">
-              <FaBell className="btn-icon" />
-              <span>Get Alert</span>
+          <li className="auth-links">
+            <Link to="/login" className="auth-link">
+              <FaBell className="nav-icon" />
+              <span>Login</span>
+            </Link>
+          </li>
+          <li className="auth-links">
+            <Link to="/signup" className="auth-link">
+              <FaBell className="nav-icon" />
+              <span>Sign Up</span>
             </Link>
           </li>
         </ul>

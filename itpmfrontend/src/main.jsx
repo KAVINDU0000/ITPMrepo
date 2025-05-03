@@ -10,6 +10,8 @@ import Adminpanel from "./Pages/Adminpanel.jsx";
 import PetSymptomChecker from "./Pages/PetSymptomChecker.jsx";
 import PetTrainingVideos from "./Pages/PetTrainingVideos.jsx";
 import Contactus from "./components/Contactus.jsx";
+import Login from "./Pages/Login.jsx";
+import Signup from "./Pages/Signup.jsx";
 
 
 createRoot(document.getElementById("root")).render(
@@ -24,6 +26,8 @@ createRoot(document.getElementById("root")).render(
         <Route path="/Pet" element={<PetSymptomChecker/>}/>
         <Route path="/Trainv" element={<PetTrainingVideos/>}/>
         <Route path="/contact" element={<Contactus/>}/>
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
       
      </Routes>
 
